@@ -7,10 +7,6 @@ TagManager:
   - Enemy
   - Ground
   - Object
-  - SecondGround
-  - ThirdGround
-  - PistolBullet
-  - SlashLine
   layers:
   - Default
   - TransparentFX
