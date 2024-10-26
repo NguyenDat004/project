@@ -44,15 +44,15 @@ public class Bom : MonoBehaviour
     private void Start()
     {
         // Đặt trọng lực để bom rơi nhanh hơn
-        bombRigidbody.gravityScale = gravityScale;
+        bombRigidbody.gravityScale = 9;
 
         // Đặt hẹn giờ để bom phát nổ sau 3 giây
         Invoke(nameof(Explode), explosionTime);
 
         // Tạo quỹ đạo cong ban đầu với góc và vận tốc ném
-        float throwAngleRad = throwAngle * Mathf.Deg2Rad;
+        //float throwAngleRad = throwAngle * Mathf.Deg2Rad;
 
-        // Lấy hướng ném từ hướng của người chơi
+/*        // Lấy hướng ném từ hướng của người chơi
         Vector2 throwDirection;
         if (transform.localScale.x < 0) // Nếu nhân vật đang nhìn sang trái
         {
@@ -64,7 +64,7 @@ public class Bom : MonoBehaviour
         }
 
         // Đặt vận tốc ban đầu
-        bombRigidbody.velocity = throwDirection.normalized * initialThrowForce;
+        bombRigidbody.velocity = throwDirection.normalized * initialThrowForce;*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,7 +86,7 @@ public class Bom : MonoBehaviour
     // Kiểm soát nảy khi chạm đất
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Obstacle")) && !hasExploded && isReadyToBounce)
+        if (collision.gameObject.CompareTag("Ground") && !hasExploded && isReadyToBounce)
         {
             // Thêm lực nảy khi chạm đất hoặc vật thể, chỉ nảy nhẹ
             bombRigidbody.velocity = new Vector2(bombRigidbody.velocity.x * 0.5f, bounceForce);
