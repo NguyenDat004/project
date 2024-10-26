@@ -11,6 +11,7 @@ TagManager:
   - ThirdGround
   - PistolBullet
   - SlashLine
+  - Audio
   layers:
   - Default
   - TransparentFX

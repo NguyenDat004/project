@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5128068897825097785}
   - component: {fileID: 6963903363886077147}
   - component: {fileID: 6877066689684774286}
-  - component: {fileID: 1140191315117023524}
   - component: {fileID: 9183728262551913898}
   - component: {fileID: 5346678851703857483}
   - component: {fileID: 6715921027666014403}
@@ -111,6 +110,8 @@ MonoBehaviour:
   downForce: 20
   speed: 0
   maxHorizontalSpeed: 0
+  grenadePrefab: {fileID: 0}
+  grenadeForce: 10
   jumpCount: 2
   tocdoroi: 0
 --- !u!95 &6877066689684774286
@@ -134,19 +135,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1140191315117023524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212823037925975286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9635ffd1e92f74c9954b6be32d9da4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 5369467325702976799, guid: 3014c5c44e04d2040865427dcdff5c00, type: 3}
 --- !u!114 &9183728262551913898
 MonoBehaviour:
   m_ObjectHideFlags: 0
