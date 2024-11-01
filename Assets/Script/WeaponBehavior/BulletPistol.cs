@@ -8,7 +8,7 @@ public class BulletPistol : MonoBehaviour
     public SpriteRenderer bulletRenderer; // Renderer của viên đạn
     private float timeCount; // Thời gian tồn tại còn lại của viên đạn
     private float timeLife; // Thời gian tồn tại tối đa của viên đạn
-    // Start is called before the first frame update
+    // Bắt đầu được gọi trước khi cập nhật khung đầu tiên
     void Start()
     {
         // Khởi tạo các giá trị ban đầu
