@@ -53,4 +53,10 @@ public class CharacterSelection : MonoBehaviour
         
         SceneManager.LoadScene("MainGame"); // Chuyển sang màn chơi chính
     }
+    // Hàm để quay lại menu chính (tuỳ chọn)
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f; // Chạy lại thời gian
+        SceneManager.LoadScene("MainMenu"); // Chuyển về Scene menu chính
+    }
 }
