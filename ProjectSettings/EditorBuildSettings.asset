@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SelectCharacter.unity
     guid: 52fa5f012740df84984fe3ce6f886843
   - enabled: 1
+    path: Assets/Scenes/Joinroom.unity
+    guid: 8efd19690c60d504fb47e2cdf94377b2
+  - enabled: 1
     path: Assets/Scenes/MainGame.unity
     guid: d98e6400febcedd44a438799746e6055
   - enabled: 1

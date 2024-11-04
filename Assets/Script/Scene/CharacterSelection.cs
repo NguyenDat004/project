@@ -47,12 +47,20 @@ public class CharacterSelection : MonoBehaviour
     }
 
     // Khi nhấn nút "Play"
-    public void PlayGame()
-    {
-        // Chuyển đến màn hình chơi game
-        
-        SceneManager.LoadScene("MainGame"); // Chuyển sang màn chơi chính
-    }
+    // Khi nhấn nút "Play"
+// Khi nhấn nút "Play"
+public void PlayGame()
+{
+    // Lưu tên nhân vật đã chọn vào PlayerPrefs
+    PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
+    
+    // Lưu chỉ số hình ảnh của nhân vật đã chọn vào PlayerPrefs
+    PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
+    
+    // Chuyển đến màn hình JoinRoom
+    SceneManager.LoadScene("JoinRoom"); 
+}
+
     // Hàm để quay lại menu chính (tuỳ chọn)
     public void ReturnToMenu()
     {
