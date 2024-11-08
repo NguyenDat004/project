@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
+
 public class CharacterSelection : MonoBehaviour
 {
-    public Image characterImage; // Hình ảnh nhân vật
-    public Text characterNameText; // Tên nhân vật
+    public Image characterImage;  // Hình ảnh nhân vật
+    public Text characterNameText;  // Tên nhân vật
+    public TMP_InputField playerNameInput;  // InputField để người chơi nhập tên
+    public TMP_InputField roomInput;  // InputField để người chơi nhập phòng
 
-    // Mảng chứa hình ảnh và tên các nhân vật
-    public Sprite[] characters;
-    public string[] characterNames;
+    public Sprite[] characters;  // Mảng hình ảnh nhân vật
+    public string[] characterNames;  // Mảng tên nhân vật
 
     private int currentIndex = 0;
 
@@ -47,19 +50,20 @@ public class CharacterSelection : MonoBehaviour
     }
 
     // Khi nhấn nút "Play"
-    // Khi nhấn nút "Play"
-// Khi nhấn nút "Play"
-public void PlayGame()
-{
-    // Lưu tên nhân vật đã chọn vào PlayerPrefs
-    PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
-    
-    // Lưu chỉ số hình ảnh của nhân vật đã chọn vào PlayerPrefs
-    PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
-    
-    // Chuyển đến màn hình JoinRoom
-    SceneManager.LoadScene("JoinRoom"); 
-}
+    public void PlayGame()
+    {
+        // Lưu tên người chơi vào PlayerPrefs
+        string playerName = playerNameInput.text;
+        PlayerPrefs.SetString("PlayerName", playerName);  // Lưu tên người chơi vào PlayerPrefs
+        
+
+        // Lưu chỉ số nhân vật đã chọn vào PlayerPrefs
+        PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
+        PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
+
+        // Chuyển đến màn hình JoinRoom
+        SceneManager.LoadScene("JoinRoom");
+    }
 
     // Hàm để quay lại menu chính (tuỳ chọn)
     public void ReturnToMenu()
