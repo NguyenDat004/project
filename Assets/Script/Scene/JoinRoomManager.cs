@@ -1,22 +1,47 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class JoinRoomManager : MonoBehaviour
 {
-    public Text characterNameText; // Tham chiếu đến Text trong Panel
-    public Image characterImage; // Tham chiếu đến Image trong Panel
-    public Sprite[] characters; // Mảng chứa hình ảnh nhân vật
+    public Image characterImage;  // Image component to display the character
+    public Text characterNameText;  // Text component to display the character name
+    public Text playerNameText;  // Text component to display the player's name
+
+    public Sprite[] characters;  // The array of character images
+    public string[] characterNames;  // The array of character names
 
     void Start()
     {
-        // Lấy tên nhân vật đã chọn từ PlayerPrefs
-        string selectedCharacter = PlayerPrefs.GetString("SelectedCharacter", "Chưa chọn nhân vật");
-        characterNameText.text = "Nhân vật của bạn: " + selectedCharacter; // Hiển thị tên nhân vật
-        
-        // Lấy chỉ số hình ảnh của nhân vật đã chọn từ PlayerPrefs
-        int selectedCharacterIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-        
-        // Hiển thị hình ảnh của nhân vật đã chọn
-        characterImage.sprite = characters[selectedCharacterIndex];
+        // Get the selected character index from PlayerPrefs
+        int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+
+        // Display the character's image and name
+        if (selectedIndex >= 0 && selectedIndex < characters.Length)
+        {
+            characterImage.sprite = characters[selectedIndex];
+            characterNameText.text = characterNames[selectedIndex];
+        }
+        else
+        {
+            Debug.LogError("Selected character index is out of bounds.");
+        }
+
+        // Get the player's name from PlayerPrefs and display it
+        string playerName = PlayerPrefs.GetString("PlayerName", "Player");
+        playerNameText.text = playerName;  // Hiển thị tên người chơi
+    }
+
+    // Hàm để quay lại menu chính
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f; // Đảm bảo thời gian không bị tạm dừng
+        SceneManager.LoadScene("MainMenu"); // Chuyển về Scene menu chính
+    }
+
+    // Hàm khi nhấn nút "Play" để chuyển sang màn chơi chính
+    public void PlayGame()
+    {
+        SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
     }
 }
