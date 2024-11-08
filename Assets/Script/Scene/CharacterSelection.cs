@@ -50,21 +50,34 @@ public class CharacterSelection : MonoBehaviour
     }
 
     // Khi nhấn nút "Play"
-    public void PlayGame()
+    public void PlayGame(){
+    string playerName = playerNameInput.text;
+    string roomName = roomInput.text;
+
+    // Kiểm tra tên người chơi và tên phòng không rỗng
+    if (string.IsNullOrEmpty(playerName))
     {
-        // Lưu tên người chơi vào PlayerPrefs
-        string playerName = playerNameInput.text;
-        PlayerPrefs.SetString("PlayerName", playerName);  // Lưu tên người chơi vào PlayerPrefs
-        
-
-        // Lưu chỉ số nhân vật đã chọn vào PlayerPrefs
-        PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
-        PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
-
-        // Chuyển đến màn hình JoinRoom
-        SceneManager.LoadScene("JoinRoom");
+        Debug.LogWarning("Player name is required.");
+        return;
     }
 
+    if (string.IsNullOrEmpty(roomName))
+    {
+        Debug.LogWarning("Room name is required.");
+        return;
+    }
+
+    // Lưu tên người chơi và tên phòng vào PlayerPrefs
+    PlayerPrefs.SetString("PlayerName", playerName);  
+    PlayerPrefs.SetString("RoomName", roomName);  // Lưu tên phòng
+
+    // Lưu chỉ số nhân vật đã chọn vào PlayerPrefs
+    PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
+    PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
+
+    // Chuyển đến màn hình JoinRoom
+    SceneManager.LoadScene("JoinRoom");
+    }
     // Hàm để quay lại menu chính (tuỳ chọn)
     public void ReturnToMenu()
     {

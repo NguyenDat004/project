@@ -897,6 +897,7 @@ MonoBehaviour:
   characterImage: {fileID: 180814977}
   characterNameText: {fileID: 1895238887}
   playerNameInput: {fileID: 176465403}
+  roomInput: {fileID: 1054734413}
   characters:
   - {fileID: 21300000, guid: b20933fc0301d7c4e9739513e10ba5d9, type: 3}
   - {fileID: 21300000, guid: 46687917fdae5544abd75a02c2357a9d, type: 3}

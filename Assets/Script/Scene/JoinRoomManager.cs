@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class JoinRoomManager : MonoBehaviour
@@ -7,12 +8,23 @@ public class JoinRoomManager : MonoBehaviour
     public Image characterImage;  // Image component to display the character
     public Text characterNameText;  // Text component to display the character name
     public Text playerNameText;  // Text component to display the player's name
+    public TMP_Text roomNameText;  // TextMeshPro để hiển thị tên phòng
 
     public Sprite[] characters;  // The array of character images
     public string[] characterNames;  // The array of character names
 
     void Start()
     {
+        // Kiểm tra nếu PlayerPrefs có lưu tên phòng
+        if (PlayerPrefs.HasKey("RoomName"))
+        {
+            string roomName = PlayerPrefs.GetString("RoomName");
+            roomNameText.text = "Room: " + roomName;  // Hiển thị tên phòng
+        }
+        else
+        {
+            roomNameText.text = "No Room Selected";  // Nếu không có tên phòng, hiển thị thông báo
+        }
         // Get the selected character index from PlayerPrefs
         int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
 

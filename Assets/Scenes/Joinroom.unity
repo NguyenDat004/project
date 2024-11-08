@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.91767406, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 51
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 51
@@ -675,8 +675,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 112, y: 400}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -1, y: 400}
+  m_SizeDelta: {x: 378.19, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114312275
 MonoBehaviour:
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1135,6 +1135,7 @@ MonoBehaviour:
   characterImage: {fileID: 296005290}
   characterNameText: {fileID: 1174871282}
   playerNameText: {fileID: 70130830}
+  roomNameText: {fileID: 1114312275}
   characters:
   - {fileID: 21300000, guid: b20933fc0301d7c4e9739513e10ba5d9, type: 3}
   - {fileID: 21300000, guid: 46687917fdae5544abd75a02c2357a9d, type: 3}
@@ -1697,6 +1698,7 @@ MonoBehaviour:
   characterImage: {fileID: 0}
   characterNameText: {fileID: 0}
   playerNameText: {fileID: 0}
+  roomNameText: {fileID: 0}
   characters: []
   characterNames: []
 --- !u!1660057539 &9223372036854775807
