@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MovingScripts : MonoBehaviour
@@ -23,9 +24,18 @@ public class MovingScripts : MonoBehaviour
     private bool facingRight;
 
     private float timeCountJump; // Đếm ngược thời gian nhảy
-
+    private Animator animator;
+    float countPrint;
     void Start()
     {
+        animator = GetComponent<Animator>();
+        animator.SetBool("JumpState",false);
+        animator.SetBool("FallingState", false);
+        animator.SetBool("WalkingState", false);
+        animator.SetBool("StandingState", true);
+
+        countPrint = 0;
+
         // Khởi tạo giá trị cho các biến
         upwardForce = 80f;
         leftForce = 30f;
@@ -48,7 +58,7 @@ public class MovingScripts : MonoBehaviour
         facingRight = true;
         timeCountJump = 0;
 
-        maxHorizontalSpeed = 90; // Giới hạn tốc độ di chuyển theo trục X|XXXXXXXXXXXXX( QUAN TRỌNG )XXXXXXXXXXXXXXXX
+        maxHorizontalSpeed = 40; // Giới hạn tốc độ di chuyển theo trục X|XXXXXXXXXXXXX( QUAN TRỌNG )XXXXXXXXXXXXXXXX
 
     }
 
@@ -57,7 +67,70 @@ public class MovingScripts : MonoBehaviour
         CharacterMoving();
         CharacterJumping();
         CharacterFalling();
+        SetStateAnimation();
     } 
+    void SetStateAnimation()
+    {
+        float a = 1;
+        countPrint += Time.deltaTime;
+        if (myRigidbody.velocity.y > 1)
+        {
+            if (countPrint > a)
+            {
+                Debug.Log("JumpState enter");
+                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
+                countPrint = 0;
+            }
+            animator.SetBool("JumpState", true);
+            animator.SetBool("FallingState", false);
+            animator.SetBool("Walking", false);
+            animator.SetBool("Standing", false);
+        }
+        else if (myRigidbody.velocity.y < -1)
+        {
+            if (countPrint > a)
+            {
+                Debug.Log("FallState enter");
+
+                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
+                countPrint = 0;
+
+            }
+            animator.SetBool("JumpState", false);
+            animator.SetBool("FallingState", true);
+            animator.SetBool("Walking", false);
+            animator.SetBool("Standing", false);
+        }
+        else if (myRigidbody.velocity.x!=0)
+        {
+            if (countPrint > a)
+            {
+                Debug.Log("WalkingState enter");
+                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
+                countPrint = 0;
+
+            }
+            animator.SetBool("JumpState", false);
+            animator.SetBool("FallingState", false);
+            animator.SetBool("Walking", true);
+            animator.SetBool("Standing", false);
+        }
+        else
+        {
+            if (countPrint > a)
+            {
+                Debug.Log("StandingState enter");
+                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
+                countPrint = 0;
+
+            }
+            animator.SetBool("JumpState", false);
+            animator.SetBool("FallingState", false);
+            animator.SetBool("Walking", false);
+            animator.SetBool("Standing", true);
+        }
+
+    }
 
     //Hàm nhảy
     private void CharacterJumping()
@@ -89,7 +162,6 @@ public class MovingScripts : MonoBehaviour
             }
 
         }
-        Debug.Log(timeCountJump);
     }
 
     //Hàm rớt
@@ -116,7 +188,10 @@ public class MovingScripts : MonoBehaviour
     private void CharacterMoving()
     {
         float horizontalVelocity = myRigidbody.velocity.x;
+        if (Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.D)){
+            
 
+        
         // Di chuyển nhân vật khi nhấn phím A hoặc D
         if (Input.GetKey(KeyCode.A))
         {
@@ -140,24 +215,14 @@ public class MovingScripts : MonoBehaviour
             // Di chuyển về bên phải
             horizontalVelocity = rightForce * speed;
         }
-        else
-        {
-            if(horizontalVelocity < 100 && horizontalVelocity > 0)
-            {
-                horizontalVelocity -= speed;
-            }
-            else if (horizontalVelocity<-1 && horizontalVelocity > -100)
-            {
-                horizontalVelocity += speed;
-            }
+            // Giới hạn tốc độ theo trục X khi nhấn nhiều phím
+            horizontalVelocity = Mathf.Clamp(horizontalVelocity, -maxHorizontalSpeed, maxHorizontalSpeed);
 
+            // Gán vận tốc mới cho Rigidbody
+            myRigidbody.velocity = new Vector2(horizontalVelocity, myRigidbody.velocity.y);
         }
 
-        // Giới hạn tốc độ theo trục X khi nhấn nhiều phím
-        horizontalVelocity = Mathf.Clamp(horizontalVelocity, -maxHorizontalSpeed, maxHorizontalSpeed);
 
-        // Gán vận tốc mới cho Rigidbody
-        myRigidbody.velocity = new Vector2(horizontalVelocity, myRigidbody.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

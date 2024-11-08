@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.84, y: 1.94, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,10 +146,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.0346975, y: 1.0262334}
+  m_Offset: {x: 0.11662245, y: 0.08088881}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 22.01, y: 23.46487, z: 19.98, w: 21.29442}
+    pivot: {x: 0.5184103, y: 0.5178526}
     oldSize: {x: 50, y: 54.15124}
     newSize: {x: 16, y: 12}
     adaptiveTilingThreshold: 0.5
@@ -157,7 +157,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1500111, y: 0.8780532}
+  m_Size: {x: 1.349988, y: 1.2780069}
   m_EdgeRadius: 0
 --- !u!114 &6092163925300384841
 MonoBehaviour:
@@ -173,6 +173,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletBody: {fileID: 0}
   bulletRenderer: {fileID: 0}
-  pushForce: 700
-  shooter: {fileID: 0}
-  movingScripts: {fileID: 0}

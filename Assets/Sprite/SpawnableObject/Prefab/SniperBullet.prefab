@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4632376671059503186}
   - component: {fileID: 2913916526461088593}
   - component: {fileID: 8204418280693059672}
-  - component: {fileID: 6092163925300384841}
+  - component: {fileID: 1126723638955985966}
   m_Layer: 0
   m_Name: SniperBullet
   m_TagString: PistolBullet
@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.84, y: 1.94, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,10 +146,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.0346975, y: 1.0262334}
+  m_Offset: {x: -1.5987749, y: 0.09226954}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 34.249996, y: 24.655117, z: 8.339999, w: 23.834948}
+    pivot: {x: 0.7798361, y: 0.51020145}
     oldSize: {x: 50, y: 54.15124}
     newSize: {x: 16, y: 12}
     adaptiveTilingThreshold: 0.5
@@ -157,9 +157,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1500111, y: 0.8780532}
+  m_Size: {x: 6.416956, y: 1.3986223}
   m_EdgeRadius: 0
---- !u!114 &6092163925300384841
+--- !u!114 &1126723638955985966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5369467325702976799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c5f79a8735c6df4a8801344a4832868, type: 3}
+  m_Script: {fileID: 11500000, guid: 72d72970643c97d45b9c7d8107debca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletBody: {fileID: 0}

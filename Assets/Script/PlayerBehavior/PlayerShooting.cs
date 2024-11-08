@@ -39,7 +39,6 @@ public class PlayerShooting : MonoBehaviour
     {
         // Tạo viên đạn từ prefab tại vị trí firePoint
         GameObject newBullet = Instantiate(bulletPrefab, firePoint.transform.position, firePoint.transform.rotation);
-
         // Bỏ qua va chạm giữa người chơi và viên đạn
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newBullet.GetComponent<Collider2D>(), true);
 
