@@ -10,11 +10,14 @@ public class PlayerShooting : MonoBehaviour
     // Các tham số có thể được thiết lập trong hàm Start
     private float bulletSpeed; // Tốc độ viên đạn
     private GameObject firePoint; // Vị trí nơi viên đạn được bắn ra
-
+    private Rigidbody2D myRigidbody;
     private float TimeShoot;
     private float TimeCount;
+    private Animator shootAnimator;
     private void Start()
     {
+        myRigidbody = GetComponent<Rigidbody2D>();
+        shootAnimator = GetComponent<Animator>();
         // Khởi tạo giá trị cho các biến
         bulletSpeed = 180f;  // Tốc độ viên đạn
         // Lấy vị trí bắn từ con cái đầu tiên
@@ -26,30 +29,95 @@ public class PlayerShooting : MonoBehaviour
     private void Update()
     {
         // Kiểm tra nếu nhấn phím bắn
-        if (Input.GetKeyDown(KeyCode.Space) && TimeCount>=TimeShoot)
+        if (Input.GetKeyDown(KeyCode.Space) && TimeCount >= TimeShoot)
         {
             Shoot();
-            TimeCount=0;
+            TimeCount = 0;
         }
-        TimeCount+=Time.deltaTime;
+        TimeCount += Time.deltaTime;
 
     }
-
     private void Shoot()
     {
-        // Tạo viên đạn từ prefab tại vị trí firePoint
+        if (gameObject.name == "Cowboy")
+        {
+            StartCoroutine(PlayAnimationAndWait("ShootingPistol"));
+        }
+        else if (gameObject.name == "Robot")
+        {
+            StartCoroutine(PlayAnimationAndWait("ShootingSniper"));
+        }
+        else if (gameObject.name == "Madman")
+        {
+            StartCoroutine(PlayAnimationAndWait("Throwing"));
+        }
+
+        else if (gameObject.name == "Assassin")
+        {
+            StartCoroutine(PlayAnimationAndWait("Slash"));
+        }
+
         GameObject newBullet = Instantiate(bulletPrefab, firePoint.transform.position, firePoint.transform.rotation);
-        // Bỏ qua va chạm giữa người chơi và viên đạn
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), newBullet.GetComponent<Collider2D>(), true);
 
-        // Lấy script BulletPistol để thiết lập shooter
-        BulletPistol bulletScript = newBullet.GetComponent<BulletPistol>();
-
-        // Thiết lập vận tốc cho viên đạn
         Rigidbody2D bulletRigidbody = newBullet.GetComponent<Rigidbody2D>();
         if (bulletRigidbody != null)
         {
-            bulletRigidbody.velocity = transform.right * bulletSpeed; // Sử dụng tốc độ viên đạn
+            bulletRigidbody.velocity = transform.right * bulletSpeed;
+        }
+    }
+
+    private IEnumerator PlayAnimationAndWait(string animName)
+    {
+        // Start playing the animation
+        shootAnimator.Play(animName);
+
+        // Wait for the Animator to actually transition to the animation state
+        yield return new WaitForEndOfFrame();
+
+        // Check animation state and wait until it's done
+        while (shootAnimator.GetCurrentAnimatorStateInfo(0).IsName(animName) &&
+               shootAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null; // Wait until the next frame and check again
+        }
+
+        // Reset or set the animation state
+        SetStateAnimation();
+
+        // Animation has completed
+        Debug.Log("Animation completed!");
+    }
+
+    void SetStateAnimation()
+    {
+        if (myRigidbody.velocity.y > 1)
+        {
+            shootAnimator.SetBool("JumpState", true);
+            shootAnimator.SetBool("FallingState", false);
+            shootAnimator.SetBool("Walking", false);
+            shootAnimator.SetBool("Standing", false);
+        }
+        else if (myRigidbody.velocity.y < -1)
+        {
+            shootAnimator.SetBool("JumpState", false);
+            shootAnimator.SetBool("FallingState", true);
+            shootAnimator.SetBool("Walking", false);
+            shootAnimator.SetBool("Standing", false);
+        }
+        else if (myRigidbody.velocity.x != 0)
+        {
+            shootAnimator.SetBool("JumpState", false);
+            shootAnimator.SetBool("FallingState", false);
+            shootAnimator.SetBool("Walking", true);
+            shootAnimator.SetBool("Standing", false);
+        }
+        else
+        {
+            shootAnimator.SetBool("JumpState", false);
+            shootAnimator.SetBool("FallingState", false);
+            shootAnimator.SetBool("Walking", false);
+            shootAnimator.SetBool("Standing", true);
         }
     }
 }

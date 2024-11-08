@@ -71,16 +71,10 @@ public class MovingScripts : MonoBehaviour
     } 
     void SetStateAnimation()
     {
-        float a = 1;
-        countPrint += Time.deltaTime;
+
         if (myRigidbody.velocity.y > 1)
         {
-            if (countPrint > a)
-            {
-                Debug.Log("JumpState enter");
-                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
-                countPrint = 0;
-            }
+
             animator.SetBool("JumpState", true);
             animator.SetBool("FallingState", false);
             animator.SetBool("Walking", false);
@@ -88,28 +82,15 @@ public class MovingScripts : MonoBehaviour
         }
         else if (myRigidbody.velocity.y < -1)
         {
-            if (countPrint > a)
-            {
-                Debug.Log("FallState enter");
 
-                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
-                countPrint = 0;
-
-            }
             animator.SetBool("JumpState", false);
             animator.SetBool("FallingState", true);
             animator.SetBool("Walking", false);
             animator.SetBool("Standing", false);
         }
-        else if (myRigidbody.velocity.x!=0)
+        else if (myRigidbody.velocity.x>20 || myRigidbody.velocity.x<-20 )
         {
-            if (countPrint > a)
-            {
-                Debug.Log("WalkingState enter");
-                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
-                countPrint = 0;
 
-            }
             animator.SetBool("JumpState", false);
             animator.SetBool("FallingState", false);
             animator.SetBool("Walking", true);
@@ -117,13 +98,6 @@ public class MovingScripts : MonoBehaviour
         }
         else
         {
-            if (countPrint > a)
-            {
-                Debug.Log("StandingState enter");
-                Debug.Log(myRigidbody.velocity.x + "," + myRigidbody.velocity.y);
-                countPrint = 0;
-
-            }
             animator.SetBool("JumpState", false);
             animator.SetBool("FallingState", false);
             animator.SetBool("Walking", false);
