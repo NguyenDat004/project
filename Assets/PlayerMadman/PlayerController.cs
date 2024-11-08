@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private AudioManager audioManager;
 
     public float jumpForce = 5f;
-    public LayerMask groundLayer; // Layer mặt đất
+    public LayerMask groundLayer;
 
     private bool isGrounded;
 
@@ -20,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Kiểm tra xem nhân vật có chạm đất không, sử dụng vị trí của nhân vật
+        // Kiểm tra xem nhân vật có chạm đất không
         isGrounded = Physics2D.OverlapCircle(transform.position + Vector3.down * 0.5f, 0.1f, groundLayer);
 
         // Nếu nhấn nút nhảy và nhân vật đang ở trên mặt đất, gọi hàm nhảy
@@ -34,5 +33,6 @@ public class PlayerController : MonoBehaviour
     {
         rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         audioManager.PlayJumpSFX(); // Phát âm thanh nhảy
+        Debug.Log("Jumping"); // Kiểm tra xem hàm Jump có được gọi
     }
 }

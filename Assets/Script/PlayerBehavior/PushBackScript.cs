@@ -8,6 +8,8 @@ public class PushBackScript : MonoBehaviour
 
     [SerializeField]
     public float ShotForce;//Trị số ảnh hưởng từ đạn
+    public float BomForce;//Trị số ảnh hưởng từ đạn
+
     public float ShotForceTimeCounter;//Đếm ngược thời gian được di chuyển sau khi bị ăn đạn
     public float ShotForceTotalTime;//Tổng thời gian delay phải chịu khi ăn đạn
     public bool AnDanBenPhai;
@@ -20,6 +22,7 @@ public class PushBackScript : MonoBehaviour
 
         //Khởi tạo giá trị ban đầu cho thuộc tính ăn đạn
         AnDanBenPhai = true;
+        BomForce = 80f;
         ShotForce = 90f;
         ShotForceTimeCounter = 0;
         ShotForceTotalTime = 0.2f;
@@ -40,11 +43,11 @@ public class PushBackScript : MonoBehaviour
     {
         if (AnDanBenPhai == true)
         {
-            myRigidbody.velocity = new Vector2(-ShotForce, ShotForce);
+            myRigidbody.velocity = new Vector2(-BomForce, ShotForce);
         }
         if (AnDanBenPhai == false)
         {
-            myRigidbody.velocity = new Vector2(ShotForce, ShotForce);
+            myRigidbody.velocity = new Vector2(BomForce, ShotForce);
         }
     }
 
@@ -53,6 +56,21 @@ public class PushBackScript : MonoBehaviour
     {
         // Kiểm tra va chạm với người chơi
         if (collision.gameObject.CompareTag("PistolBullet"))
+        {
+            //Kích hoạt hàm bật lùi của người chơi
+            ShotForceTimeCounter = ShotForceTotalTime;
+            if (collision.transform.position.x > transform.position.x)
+            {
+                AnDanBenPhai = true;
+            }
+            if (collision.transform.position.x <= transform.position.x)
+            {
+                AnDanBenPhai = false;
+            }
+
+        }
+        // Kiểm tra va chạm với người chơi
+        if (collision.gameObject.CompareTag("bomno"))
         {
             //Kích hoạt hàm bật lùi của người chơi
             ShotForceTimeCounter = ShotForceTotalTime;
