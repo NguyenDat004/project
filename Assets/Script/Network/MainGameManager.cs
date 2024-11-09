@@ -1,9 +1,11 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameNetworkManager : MonoBehaviour
 {
     public GameObject playerPrefab; // Prefab for the player
+    public string targetSceneName = "MainGame"; // Scene where player should spawn
 
     private void Start()
     {
@@ -13,20 +15,41 @@ public class GameNetworkManager : MonoBehaviour
             return;
         }
 
-        // Nếu là Host (Server), gọi SpawnPlayer
+        // Listen for scene loading
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // If the NetworkManager is a host (server), spawn player for the host
         if (NetworkManager.Singleton.IsHost)
         {
             Debug.Log("Host is started");
-            SpawnPlayerServer(); // Server sẽ spawn player
+            SpawnPlayer(); // Server spawns player
         }
-        // Nếu là Client, chỉ cho phép request spawn từ server (chúng ta không spawn player trực tiếp từ client)
+
+        // If the NetworkManager is a client, ask the host to spawn the player
         else if (NetworkManager.Singleton.IsClient)
         {
-            //SpawnPlayerClient(NetworkManager.Singleton.LocalClientId);
+            Debug.Log("Client is started");
+            RequestSpawnPlayerClientRpc(); // Request spawn from server
         }
     }
 
-    private void SpawnPlayerServer()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene loaded: " + scene.name);
+
+        // If we loaded the target scene, spawn the player
+        if (scene.name == targetSceneName)
+        {
+            Debug.Log("Spawning player in the scene: " + targetSceneName);
+            SpawnPlayer();
+        }
+        else
+        {
+            Debug.Log("Not in the target scene. Player will not spawn.");
+        }
+    }
+
+    private void SpawnPlayer()
     {
         if (playerPrefab == null)
         {
@@ -34,8 +57,8 @@ public class GameNetworkManager : MonoBehaviour
             return;
         }
 
-        // Nếu là server (host), spawn player
-        if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsClient)
+        // Server is responsible for spawning player
+        if (NetworkManager.Singleton.IsHost)
         {
             GameObject player = Instantiate(playerPrefab);
             NetworkObject playerNetworkObject = player.GetComponent<NetworkObject>();
@@ -47,26 +70,18 @@ public class GameNetworkManager : MonoBehaviour
                 return;
             }
 
-            // Spawn player trên server
+            // Spawn the player object on the network
             playerNetworkObject.Spawn();
 
             Debug.Log("Player spawned on the network as Host");
         }
     }
-    private void SpawnPlayerClient(ulong clientId)
+
+    // This RPC will be called by the client to request the server to spawn a player
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestSpawnPlayerClientRpc(ServerRpcParams rpcParams = default)
     {
-        if (playerPrefab != null)
-        {
-            GameObject player = Instantiate(playerPrefab);
-            NetworkObject networkObject = player.GetComponent<NetworkObject>();
-            if (networkObject != null)
-            {
-                networkObject.SpawnAsPlayerObject(clientId);
-            }
-            else
-            {
-                Debug.LogError("Player prefab missing NetworkObject component.");
-            }
-        }
+        Debug.Log("Client is requesting player spawn");
+        SpawnPlayer(); // Server spawns the player
     }
 }

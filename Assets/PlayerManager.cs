@@ -1,53 +1,58 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] playerPrefabs;
 
     private void Start()
     {
-        // Kiểm tra nếu NetworkManager đã được khởi tạo và đảm bảo chỉ server chạy code này
-        if (NetworkManager.Singleton == null)
+        if (IsHost)
         {
-            Debug.LogError("NetworkManager is not initialized or this is not a server.");
+            // The host spawns its own player when the game starts.
+            SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+        }
+        else if (IsClient)
+        {
+            // Clients request the host to spawn their player when they connect.
+            RequestSpawnPlayerServerRpc();
+        }
+    }
+
+    private void SpawnPlayer(ulong clientId)
+    {
+        if (playerPrefabs.Length == 0)
+        {
+            Debug.LogError("Player prefabs array is empty.");
             return;
         }
-        if ( !NetworkManager.Singleton.IsServer)
+
+        int i = Random.Range(0, playerPrefabs.Length);
+        GameObject playerInstance = Instantiate(playerPrefabs[i], transform.position, Quaternion.identity);
+        NetworkObject networkObject = playerInstance.GetComponent<NetworkObject>();
+
+        if (networkObject != null)
         {
-            Debug.LogError("Not server");
-            //return;
-        }
-
-        if (playerPrefabs.Length > 0)
-        {
-            Debug.Log("Host:Client - " + NetworkManager.Singleton.IsHost + ", " + NetworkManager.Singleton.IsClient);
-            int i = Random.Range(0, playerPrefabs.Length);
-
-            // Spawn nhân vật chỉ khi đang là server/host
-            if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsClient)
-            {
-                GameObject playerInstance = Instantiate(playerPrefabs[i], transform.position, Quaternion.identity);
-                NetworkObject networkObject = playerInstance.GetComponent<NetworkObject>();
-
-                if (networkObject != null)
-                {
-                    // Spawn và gán quyền sở hữu cho client tương ứng
-                    networkObject.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClientId);
-                    Debug.Log("Player spawned for client ID: " + NetworkManager.Singleton.LocalClientId);
-                }
-                else
-                {
-                    Debug.LogError("The instantiated player prefab does not have a NetworkObject component.");
-                }
-            }
+            // Spawn the player object and assign ownership to the specific client ID
+            networkObject.SpawnAsPlayerObject(clientId);
+            Debug.Log("Player spawned for client ID: " + clientId);
         }
         else
         {
-            Debug.LogError("Player prefabs array is empty.");
+            Debug.LogError("The instantiated player prefab does not have a NetworkObject component.");
+            Destroy(playerInstance);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestSpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
+    {
+        if (IsHost)
+        {
+            // The server (host) spawns a player for the client that sent the request.
+            SpawnPlayer(rpcParams.Receive.SenderClientId);
         }
     }
 }
