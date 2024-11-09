@@ -117,25 +117,7 @@ public class MovingScripts : MonoBehaviour
             jumpCount--; // Giảm số lần nhảy sau khi thực hiện
             timeCountJump = 0.2f;
         }
-        // Nếu vận tốc y nhỏ hơn 50, làm giảm dần vận tốc nhảy lên
-        if (myRigidbody.velocity.y < 10 && myRigidbody.velocity.y > 5)
-        {
-            myRigidbody.velocity = Vector2.zero;
-        }
-        if (myRigidbody.velocity.y == 0)
-        {
-            if (timeCountJump <= 0)
-            {
-                // Reset số lần nhảy khi chạm đất
-                jumpCount = 2;
-
-            }
-            else
-            {
-                timeCountJump-=Time.deltaTime;
-            }
-
-        }
+        timeCountJump-=Time.deltaTime;
     }
 
     //Hàm rớt
@@ -149,13 +131,28 @@ public class MovingScripts : MonoBehaviour
             foreach (var collider in secondGroundColliders)
             {
                 Physics2D.IgnoreCollision(collider, this.GetComponent<Collider2D>(), true);
+                
             }
+            WaitFall();
         }
 
         // Tăng tốc độ rơi khi vận tốc y lớn hơn -50
         if (myRigidbody.velocity.y < -50)
         {
             myRigidbody.velocity -= vecGravity * tocdoroi * Time.deltaTime;
+        }
+    }
+
+    void WaitFall()
+    {
+        float i = 0;
+        while (i < 0.3f)
+        {
+            i += Time.deltaTime;
+        }
+        foreach (var collider in secondGroundColliders)
+        {
+            Physics2D.IgnoreCollision(collider, this.GetComponent<Collider2D>(), false);
         }
     }
 
@@ -204,15 +201,10 @@ public class MovingScripts : MonoBehaviour
         // Kiểm tra nếu va chạm với mặt đất "BaseGround" hoặc "SecondGround"
         if (collision.gameObject.name == "BaseGround" || collision.gameObject.name == "SecondGround")
         {
-            if (myRigidbody.velocity.y == 0)
+            if (myRigidbody.velocity.y < 1 && myRigidbody.velocity.y > -1)
             {
                 // Reset số lần nhảy khi chạm đất
                 jumpCount = 2;
-            }
-            // Bật lại va chạm với "SecondGround"
-            foreach (var collider in secondGroundColliders)
-            {
-                Physics2D.IgnoreCollision(collider, this.GetComponent<Collider2D>(), false);
             }
         }
     }

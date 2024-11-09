@@ -58,15 +58,14 @@ public class Bom : MonoBehaviour
         isReadyToBounce = true;
     }
 
-    private void Explode()
-    {
+    private void Explode(){
         if (!hasExploded)
         {
             hasExploded = true;
 
             if (explosionEffectPrefab != null)
             {
-                GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+                GameObject explosionEffect = Instantiate(explosionEffectPrefab, this.transform.position, Quaternion.identity);
                 Destroy(explosionEffect, 0.2f);
             }
 
