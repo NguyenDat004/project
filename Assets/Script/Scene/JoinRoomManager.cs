@@ -1,34 +1,62 @@
+﻿using UnityEngine.SceneManagement;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class JoinRoomManager : MonoBehaviour
 {
-    public Image characterImage;  // Image component to display the character
-    public Text characterNameText;  // Text component to display the character name
-    public Text playerNameText;  // Text component to display the player's name
-    public TMP_Text roomNameText;  // TextMeshPro để hiển thị tên phòng
+    // UI component hiển thị hình ảnh nhân vật đã chọn
+    public Image characterImage;
+    // UI component hiển thị tên nhân vật đã chọn
+    public Text characterNameText;
+    // UI component hiển thị tên người chơi
+    public Text playerNameText;
+    // TextMeshPro để hiển thị tên phòng
+    public TMP_Text roomNameText;
 
-    public Sprite[] characters;  // The array of character images
-    public string[] characterNames;  // The array of character names
+    // Mảng chứa hình ảnh các nhân vật
+    public Sprite[] characters;
+    // Mảng chứa tên của các nhân vật
+    public string[] characterNames;
+
+    // Các nút để bắt đầu host và client
+    [SerializeField]
+    private Button hostButton;
+    [SerializeField]
+    private Button clientButton;
 
     void Start()
     {
-        // Kiểm tra nếu PlayerPrefs có lưu tên phòng
+        hostButton.onClick.AddListener(() =>
+        {
+            Debug.Log("Host started in Scene 1.");
+            SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
+            NetworkManager.Singleton.StartHost();
+        });
+        clientButton.onClick.AddListener(() =>
+        {
+            Debug.Log("Client started in Scene 1.");
+            SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
+            NetworkManager.Singleton.StartClient();
+        });
+
+        // Kiểm tra xem PlayerPrefs có lưu tên phòng không
         if (PlayerPrefs.HasKey("RoomName"))
         {
+            // Lấy tên phòng từ PlayerPrefs và hiển thị
             string roomName = PlayerPrefs.GetString("RoomName");
-            roomNameText.text = "Room: " + roomName;  // Hiển thị tên phòng
+            roomNameText.text = "Room: " + roomName;
         }
         else
         {
-            roomNameText.text = "No Room Selected";  // Nếu không có tên phòng, hiển thị thông báo
+            // Nếu không có tên phòng, hiển thị thông báo mặc định
+            roomNameText.text = "No Room Selected";
         }
-        // Get the selected character index from PlayerPrefs
-        int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
 
-        // Display the character's image and name
+        // Lấy chỉ số nhân vật đã chọn từ PlayerPrefs
+        int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+        // Kiểm tra nếu chỉ số hợp lệ và hiển thị hình ảnh, tên nhân vật
         if (selectedIndex >= 0 && selectedIndex < characters.Length)
         {
             characterImage.sprite = characters[selectedIndex];
@@ -39,21 +67,30 @@ public class JoinRoomManager : MonoBehaviour
             Debug.LogError("Selected character index is out of bounds.");
         }
 
-        // Get the player's name from PlayerPrefs and display it
+        // Lấy tên người chơi từ PlayerPrefs và hiển thị
         string playerName = PlayerPrefs.GetString("PlayerName", "Player");
-        playerNameText.text = playerName;  // Hiển thị tên người chơi
+        playerNameText.text = playerName;
     }
 
-    // Hàm để quay lại menu chính
+    // Hàm để quay lại menu chính khi bấm nút "Return"
     public void ReturnToMenu()
     {
-        Time.timeScale = 1f; // Đảm bảo thời gian không bị tạm dừng
-        SceneManager.LoadScene("MainMenu"); // Chuyển về Scene menu chính
-    }
+        Time.timeScale = 1f; // Đảm bảo thời gian không bị tạm dừng khi quay lại menu
+        SceneManager.LoadScene("MainMenu"); // Chuyển về scene menu chính
+    }// Hàm khi nhấn nút "Play" để chuyển sang màn chơi chính
 
-    // Hàm khi nhấn nút "Play" để chuyển sang màn chơi chính
+    // Start is called before the first frame update
     public void PlayGame()
     {
-        SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
+        //hostButton.onClick.AddListener(() =>
+        //{
+        //    SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
+        //    NetworkManager.Singleton.StartHost();
+        //});
+        //clientButton.onClick.AddListener(() =>
+        //{
+        //    SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
+        //    NetworkManager.Singleton.StartClient();
+        //});
     }
 }

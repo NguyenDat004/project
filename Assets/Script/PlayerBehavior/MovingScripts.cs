@@ -1,8 +1,9 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Netcode;
 
-public class MovingScripts : MonoBehaviour
+public class MovingScripts : NetworkBehaviour
 {
     public Rigidbody2D myRigidbody;  // Đối tượng Rigidbody2D điều khiển vật lý của nhân vật
     private BoxCollider2D currentCollider; // Collider của đối tượng hiện đang va chạm
@@ -28,6 +29,7 @@ public class MovingScripts : MonoBehaviour
     float countPrint;
     void Start()
     {
+        
         animator = GetComponent<Animator>();
         animator.SetBool("JumpState",false);
         animator.SetBool("FallingState", false);
@@ -64,10 +66,13 @@ public class MovingScripts : MonoBehaviour
 
     void Update()
     {
-        CharacterMoving();
-        CharacterJumping();
-        CharacterFalling();
-        SetStateAnimation();
+        if (IsOwner)
+        {
+            CharacterMoving();
+            CharacterJumping();
+            CharacterFalling();
+            SetStateAnimation();
+        }
     } 
     void SetStateAnimation()
     {
