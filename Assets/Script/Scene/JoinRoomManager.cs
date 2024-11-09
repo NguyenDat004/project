@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class JoinRoomManager : MonoBehaviour
 {
@@ -28,18 +29,21 @@ public class JoinRoomManager : MonoBehaviour
 
     void Start()
     {
+        // Inside the Start method or a custom initialization method
         hostButton.onClick.AddListener(() =>
         {
-            Debug.Log("Host started in Scene 1.");
-            SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
-            NetworkManager.Singleton.StartHost();
+            Debug.Log("Host button pressed in Scene 1.");
+            // Start a coroutine to load the scene and then start the host
+            StartCoroutine(LoadSceneAndStartHost("MainGame"));
         });
+
         clientButton.onClick.AddListener(() =>
         {
-            Debug.Log("Client started in Scene 1.");
-            SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
-            NetworkManager.Singleton.StartClient();
+            Debug.Log("Client button pressed in Scene 1.");
+            // Start a coroutine to load the scene and then start the client
+            StartCoroutine(LoadSceneAndStartClient("MainGame"));
         });
+
 
         // Kiểm tra xem PlayerPrefs có lưu tên phòng không
         if (PlayerPrefs.HasKey("RoomName"))
@@ -79,7 +83,34 @@ public class JoinRoomManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu"); // Chuyển về scene menu chính
     }// Hàm khi nhấn nút "Play" để chuyển sang màn chơi chính
 
-    // Start is called before the first frame update
+    private IEnumerator LoadSceneAndStartHost(string sceneName)
+    {
+        NetworkManager.Singleton.StartHost();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        // Wait until the scene has loaded
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        // Start the host after the scene has loaded
+        
+        Debug.Log("Host started in MainGame scene.");
+    }
+
+    private IEnumerator LoadSceneAndStartClient(string sceneName)
+    {
+        NetworkManager.Singleton.StartClient();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        // Wait until the scene has loaded
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        // Start the client after the scene has loaded
+        
+        Debug.Log("Client started in MainGame scene.");
+    }
+
     public void PlayGame()
     {
         //hostButton.onClick.AddListener(() =>
