@@ -1,17 +1,12 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/Sprite/Player/Prefab/Character.prefab.meta
-guid: 0e336a811b9a9fd4b85cb2986d6343d6
+guid: 1c05c52256e26ba41a2ee417d4ca72b0
 PrefabImporter:
 ========
 guid: efe71c5fdcc05584aa369566dcc0981b
 folderAsset: yes
 DefaultImporter:
 >>>>>>>> a29333f769f4b5821bf02969f4d64d6ae75d8820:Assets/Material.meta
-=======
-guid: 109aded8fdf588e4a91f719984488477
-PrefabImporter:
->>>>>>> a29333f769f4b5821bf02969f4d64d6ae75d8820
   externalObjects: {}
   userData: 
   assetBundleName: 

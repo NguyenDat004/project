@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class DestroyCtr : MonoBehaviour
 {
-    // Phuong thức hủy đối tượng game
-    public void DestroyTrigger()
+    float count = 0;
+    private void Start()
     {
-        Destroy(gameObject); 
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = 3;
     }
+    private void Update()
+    {
+        count += Time.deltaTime;
+        if (count > 0.2)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
