@@ -905,9 +905,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c3b7fda36c4b6ae43a3a653d0772ae77, type: 3}
   characterNames:
   - Assasin
-  - Cowboy
-  - Madman
   - Robot
+  - Madman
+  - Cowboy
 --- !u!114 &242338872
 MonoBehaviour:
   m_ObjectHideFlags: 0

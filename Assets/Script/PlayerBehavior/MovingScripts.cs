@@ -232,4 +232,4 @@ public class MovingScripts : NetworkBehaviour
             currentCollider.size = originalSize;
         }
     }
-}
+}  

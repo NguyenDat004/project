@@ -2550,7 +2550,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9552d136f023b3d4fa0183e092dfc218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 4452316119522920707, guid: c387a85b21072364ba8221421f9dbd56, type: 3}
+  playerPrefabs:
+  - {fileID: 4096191461418841721, guid: b7eaf4b5ee3f90c438e083a392efd20f, type: 3}
+  - {fileID: 421700324520776438, guid: d564c729b82dbcf49ad578f67e71be2d, type: 3}
+  - {fileID: 5233332195271518968, guid: 864d33fe07787d147a127a18a04e7410, type: 3}
+  - {fileID: 2882715561665597631, guid: 5ac330d6cc2114946aa478c7cd1cced6, type: 3}
+  rocketSpawnerPrefab: {fileID: 6389735135124892053, guid: 6f6690d0b15e74d48bafd6af56d19707, type: 3}
   targetSceneName: MainGame
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
