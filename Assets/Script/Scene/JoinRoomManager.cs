@@ -36,7 +36,7 @@ public class JoinRoomManager : MonoBehaviour
 
     public TMP_InputField IPAddressHost;
 
-
+    public TMP_Text IPAddressName;
     void Start()
     {
         // Inside the Start method or a custom initialization method
@@ -98,6 +98,7 @@ public class JoinRoomManager : MonoBehaviour
     {
         NetworkManager.Singleton.StartHost();
         string ipAddress = GetLocalIPAddress(); // Hàm lấy địa chỉ IP
+        IPAddressName.text= ipAddress;
         PlayerPrefs.SetString("HostIPAddress", ipAddress);
         PlayerPrefs.Save();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
