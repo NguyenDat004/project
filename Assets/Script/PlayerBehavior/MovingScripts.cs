@@ -191,6 +191,8 @@ public class MovingScripts : MonoBehaviour
 
             // Gán vận tốc mới cho Rigidbody
             myRigidbody.velocity = new Vector2(horizontalVelocity, myRigidbody.velocity.y);
+
+
         }
 
 
