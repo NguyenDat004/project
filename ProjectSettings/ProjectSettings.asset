@@ -42,8 +42,8 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 100
-  defaultScreenHeight: 50
+  defaultScreenWidth: 1080
+  defaultScreenHeight: 720
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
@@ -93,7 +93,7 @@ PlayerSettings:
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
-  resizableWindow: 0
+  resizableWindow: 1
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
   gpuSkinning: 0
@@ -707,11 +707,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: c2fbb0e5-5957-4392-ac22-f2bbbb04995c
+  cloudProjectId: 5f3d654a-1b48-4f63-a302-fde6c30b6361
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: test
-  organizationId: dal-nohope
+  projectName: CrazyShootingHostable
+  organizationId: maikhoa2015
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

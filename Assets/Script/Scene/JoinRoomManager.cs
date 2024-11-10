@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Net.Sockets;
+using System.Net;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using Unity.Netcode.Transports.UTP;
 
 public class JoinRoomManager : MonoBehaviour
 {
@@ -27,8 +31,17 @@ public class JoinRoomManager : MonoBehaviour
     [SerializeField]
     private Button clientButton;
 
+    private bool pcAssigned;
+
+    private string ipAddress; // Địa chỉ IP sẽ được lấy tự động
+
+    UnityTransport transport;
+
     void Start()
     {
+        ipAddress = "0.0.0.0";
+        pcAssigned = false;
+        InvokeRepeating("assignPlayerController", 0.1f, 0.1f);
         // Inside the Start method or a custom initialization method
         hostButton.onClick.AddListener(() =>
         {
@@ -85,6 +98,7 @@ public class JoinRoomManager : MonoBehaviour
 
     private IEnumerator LoadSceneAndStartHost(string sceneName)
     {
+        ipAddress = GetLocalIPAddress(); // Lấy địa chỉ IP tự động
         NetworkManager.Singleton.StartHost();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         // Wait until the scene has loaded
@@ -99,6 +113,7 @@ public class JoinRoomManager : MonoBehaviour
 
     private IEnumerator LoadSceneAndStartClient(string sceneName)
     {
+        SetIpAddress(); // Gọi để thiết lập địa chỉ IP cho client
         NetworkManager.Singleton.StartClient();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         // Wait until the scene has loaded
@@ -111,6 +126,25 @@ public class JoinRoomManager : MonoBehaviour
         Debug.Log("Client started in MainGame scene.");
     }
 
+    public string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString(); // Trả về địa chỉ IP mà không hiển thị
+            }
+        }
+        throw new System.Exception("No network adapters with an IPv4 address in the system!");
+    }
+
+    // Sets the IP Address of the Connection Data in Unity Transport
+    public void SetIpAddress()
+    {
+        transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        transport.ConnectionData.Address = ipAddress; // Sử dụng địa chỉ IP đã lấy
+    }
     public void PlayGame()
     {
         //hostButton.onClick.AddListener(() =>
