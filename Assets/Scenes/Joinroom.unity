@@ -2423,6 +2423,7 @@ MonoBehaviour:
   - Robot
   hostButton: {fileID: 550984660}
   clientButton: {fileID: 2103163624}
+  transport: {fileID: 2115316237}
   IPAddressHost: {fileID: 908693356}
   IPAddressName: {fileID: 1715116985}
 --- !u!1 &1541309325
@@ -3108,9 +3109,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2115316233}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.181448, y: 2.751498, z: -0.06784504}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.181448, y: 2.7514982, z: -0.067855835}
+  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3172,7 +3173,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 127.0.0.1
+    Address: 0.0.0.0
     Port: 7777
     ServerListenAddress: 127.0.0.1
   DebugSimulator:

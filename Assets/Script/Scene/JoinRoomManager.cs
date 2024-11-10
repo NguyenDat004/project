@@ -32,7 +32,7 @@ public class JoinRoomManager : MonoBehaviour
     private Button clientButton;
 
     private string ipAddress; // Địa chỉ IP sẽ được lấy tự động\
-    private UnityTransport transport;
+    public UnityTransport transport;
 
     public TMP_InputField IPAddressHost;
 
