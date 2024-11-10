@@ -49,6 +49,10 @@ public class GameNetworkManager : MonoBehaviour
             {
                 RequestSpawnPlayerServerRpc();
             }
+            else
+            {
+                Debug.Log("Ko la host cung ko la Client");
+            }
         }
         else
         {
