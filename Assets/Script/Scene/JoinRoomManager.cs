@@ -115,7 +115,7 @@ public class JoinRoomManager : MonoBehaviour
     {
         NetworkManager.Singleton.StartClient();
         string hostIp = PlayerPrefs.GetString("HostIPAddress", ipAddress); // Lấy IP từ PlayerPrefs
-        transport.ConnectionData.Address = hostIp; // Thiết lập địa chỉ IP cho client
+        transport.ConnectionData.Address = ipAddress; // Thiết lập địa chỉ IP cho client
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         // Wait until the scene has loaded
         while (!asyncLoad.isDone)
