@@ -11,11 +11,13 @@ public class PlayerManager : NetworkBehaviour
     {
         if (IsHost)
         {
+            Debug.Log("Host spawned");
             // The host spawns its own player when the game starts.
             SpawnPlayer(NetworkManager.Singleton.LocalClientId);
         }
         else if (IsClient)
         {
+            Debug.Log("Client spawned");
             // Clients request the host to spawn their player when they connect.
             RequestSpawnPlayerServerRpc();
         }
