@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RocketBehavior : MonoBehaviour
 {
@@ -15,16 +17,11 @@ public class RocketBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeCount = 0;
-
-        secondGroundObjects = GameObject.FindGameObjectWithTag("SecondGround");
-        Collider2D secondGroundCollider = secondGroundObjects.GetComponent<Collider2D>();
-        rocketCollider = GetComponent<Collider2D>();
-        rbbody = GetComponent<Rigidbody2D>();
+        timeCount = 0;            
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         int i = Random.Range(0, SpriteGame.Length);
         spriteRenderer=SpriteGame[i].GetComponent<SpriteRenderer>();
-        Physics2D.IgnoreCollision(rocketCollider, secondGroundCollider);
+        
     }
 
     // Update is called once per frame
@@ -37,6 +34,19 @@ public class RocketBehavior : MonoBehaviour
         }
         timeCount += Time.deltaTime;
     }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainGame")
+        {
+            rocketCollider = GetComponent<Collider2D>();
+            rbbody = GetComponent<Rigidbody2D>();
+            secondGroundObjects = GameObject.FindGameObjectWithTag("SecondGround");
+            Collider2D secondGroundCollider = secondGroundObjects.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(rocketCollider, secondGroundCollider);
+        }
+    }
+
     void Dropping()
     {
         rbbody.velocity = new Vector2(rbbody.velocity.x, -200);
@@ -45,6 +55,7 @@ public class RocketBehavior : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player" )
         {
+            Debug.Log("Collide with"+collision.gameObject.tag.ToString());
             GameObject BomNo = Instantiate(BoomExplode, this.transform.position, this.transform.rotation);
             Destroy(gameObject);
         }

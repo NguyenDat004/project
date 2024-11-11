@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4137745705897199413}
-  - component: {fileID: 4398235999364755548}
+  - component: {fileID: 4783689415476836374}
   - component: {fileID: 372008695452176628}
-  - component: {fileID: -9121407721355785645}
   - component: {fileID: 6475343804501149453}
+  - component: {fileID: 5874947920756062884}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -35,7 +35,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4398235999364755548
+--- !u!114 &4783689415476836374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2471631623
+  GlobalObjectIdHash: 1513994179
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  ActiveSceneSynchronization: 1
+  ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
@@ -73,7 +73,19 @@ MonoBehaviour:
   - {fileID: 2882715561665597631, guid: 5ac330d6cc2114946aa478c7cd1cced6, type: 3}
   - {fileID: 5233332195271518968, guid: 864d33fe07787d147a127a18a04e7410, type: 3}
   - {fileID: 421700324520776438, guid: d564c729b82dbcf49ad578f67e71be2d, type: 3}
---- !u!114 &-9121407721355785645
+--- !u!114 &6475343804501149453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4452316119522920707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3d0487e64364742ac3debcbf073199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5874947920756062884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +102,7 @@ MonoBehaviour:
   SyncPositionY: 1
   SyncPositionZ: 0
   SyncRotAngleX: 0
-  SyncRotAngleY: 0
+  SyncRotAngleY: 1
   SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
@@ -104,15 +116,3 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6475343804501149453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4452316119522920707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b3d0487e64364742ac3debcbf073199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

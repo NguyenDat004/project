@@ -20,7 +20,6 @@ public class PlayerManager : NetworkBehaviour
         }
         else if (IsClient)
         {
-            Debug.Log("Client spawned");
             // Clients request the host to spawn their player when they connect.
             RequestSpawnPlayerServerRpc();
         }
@@ -36,7 +35,9 @@ public class PlayerManager : NetworkBehaviour
 
         int i = Random.Range(0, playerPrefabs.Length);
         GameObject playerInstance = Instantiate(playerPrefabs[i], transform.position, Quaternion.identity);
+        Debug.Log("Client's player instantiate");
         NetworkObject networkObject = playerInstance.GetComponent<NetworkObject>();
+        Debug.Log("Client spawned");
 
         if (networkObject != null)
         {
@@ -54,6 +55,7 @@ public class PlayerManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestSpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
     {
+        Debug.Log("Client da yeu cau spawn");
         if (IsHost)
         {
             // The server (host) spawns a player for the client that sent the request.

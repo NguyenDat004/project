@@ -1,7 +1,8 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Bom : MonoBehaviour
+public class Bom : NetworkBehaviour
 {
     private SpriteRenderer grenadeRenderer;
     private Rigidbody2D bombRigidbody;
@@ -20,19 +21,21 @@ public class Bom : MonoBehaviour
 
     private void Awake()
     {
-        grenadeRenderer = GetComponent<SpriteRenderer>();
-        grenadeRenderer.sortingOrder = 2;
-        bombRigidbody = GetComponent<Rigidbody2D>();
 
         Vector3 currentPosition = transform.position;
         currentPosition.z = -Mathf.Abs(currentPosition.z);
         transform.position = currentPosition;
     }
 
+
     private void Start()
     {
-        bombRigidbody.gravityScale = gravityScale;
         Invoke(nameof(Explode), explosionTime);
+        grenadeRenderer = GetComponent<SpriteRenderer>();
+        grenadeRenderer.sortingOrder = 2;
+        bombRigidbody = GetComponent<Rigidbody2D>();
+        bombRigidbody.isKinematic = false;
+        bombRigidbody.gravityScale = 9; // Ensure gravity affects the bomb  
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

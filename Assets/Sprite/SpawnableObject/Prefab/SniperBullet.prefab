@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 831187437925889520}
   - component: {fileID: 4632376671059503186}
   - component: {fileID: 2913916526461088593}
-  - component: {fileID: 8204418280693059672}
   - component: {fileID: 1126723638955985966}
   - component: {fileID: -5354535073539603039}
   - component: {fileID: -8634578616922618613}
   - component: {fileID: 5347584642075500618}
+  - component: {fileID: 5846513451556557859}
   m_Layer: 0
   m_Name: SniperBullet
   m_TagString: PistolBullet
@@ -117,51 +117,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &8204418280693059672
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5369467325702976799}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.5987749, y: 0.09226954}
-  m_SpriteTilingProperty:
-    border: {x: 34.249996, y: 24.655117, z: 8.339999, w: 23.834948}
-    pivot: {x: 0.7798361, y: 0.51020145}
-    oldSize: {x: 50, y: 54.15124}
-    newSize: {x: 16, y: 12}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 6.416956, y: 1.3986223}
-  m_EdgeRadius: 0
 --- !u!114 &1126723638955985966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d72970643c97d45b9c7d8107debca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletBody: {fileID: 0}
-  bulletRenderer: {fileID: 0}
+  bulletBody: {fileID: 2913916526461088593}
+  bulletRenderer: {fileID: 4632376671059503186}
 --- !u!114 &-5354535073539603039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3065122691
+  GlobalObjectIdHash: 1854549201
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -226,7 +181,7 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &5347584642075500618
 MonoBehaviour:
@@ -240,3 +195,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &5846513451556557859
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5369467325702976799}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.0077145, y: -0.006015539}
+  m_SpriteTilingProperty:
+    border: {x: 34.249996, y: 24.655117, z: 8.339999, w: 23.834948}
+    pivot: {x: 0.7798361, y: 0.51020145}
+    oldSize: {x: 50, y: 54.15124}
+    newSize: {x: 16, y: 12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.636495, y: 1.0074391}
+  m_EdgeRadius: 0

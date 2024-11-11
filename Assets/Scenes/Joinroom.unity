@@ -368,6 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4452316119522920707, guid: c387a85b21072364ba8221421f9dbd56, type: 3}
+  particleSystemCloud: {fileID: 7843592841744671174, guid: 65ef62b327aa21946ab9fe70563c9b93, type: 3}
   rocketSpawnerPrefab: {fileID: 6389735135124892053, guid: 6f6690d0b15e74d48bafd6af56d19707, type: 3}
   targetSceneName: MainGame
 --- !u!114 &70905315

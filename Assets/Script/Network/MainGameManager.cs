@@ -8,10 +8,11 @@ using UnityEngine.SceneManagement;
 public class GameNetworkManager : MonoBehaviour
 {
     public GameObject playerPrefab;
+    public GameObject particleSystemCloud;
     public GameObject rocketSpawnerPrefab;
+
     public string targetSceneName = "MainGame";
 
-  
     private void Start()
     {
 
@@ -45,7 +46,9 @@ public class GameNetworkManager : MonoBehaviour
         {
             if (NetworkManager.Singleton.IsHost)
             {
+                Debug.Log("Host is auto spawn in OnSceneLoaded");
                 SpawnPlayer(NetworkManager.Singleton.LocalClientId); // Host spawn player
+                SpawnPrefab();
             }
             else if (NetworkManager.Singleton.IsClient)
             {
@@ -81,8 +84,11 @@ public class GameNetworkManager : MonoBehaviour
             return;
         }
 
+
         GameObject player = Instantiate(playerPrefab);
+        Debug.Log("player được instantiate");
         NetworkObject playerNetworkObject = player.GetComponent<NetworkObject>();
+
 
         if (playerNetworkObject == null)
         {
@@ -93,8 +99,22 @@ public class GameNetworkManager : MonoBehaviour
 
         // Chỉ server mới có thể gọi SpawnWithOwnership
         playerNetworkObject.SpawnWithOwnership(clientId);
-
+        Debug.Log("player được spawn");
         Debug.Log($"Nhân vật đã spawn trên mạng cho client {clientId}");
+    }
+
+    private void SpawnPrefab()
+    {
+        if (rocketSpawnerPrefab != null)
+        {
+            NetworkObject rocketSpawner = Instantiate(rocketSpawnerPrefab,new Vector3(0,400,0), this.transform.rotation).GetComponent<NetworkObject>();
+            rocketSpawner.Spawn(true);
+        }
+        else if (particleSystemCloud != null)
+        {
+            NetworkObject particleCloud = Instantiate(particleSystemCloud, new Vector3(335,65,0), this.transform.rotation).GetComponent<NetworkObject>();
+            particleCloud.Spawn(true);
+        }
     }
 
 }
