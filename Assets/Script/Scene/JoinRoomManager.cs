@@ -1,121 +1,182 @@
-﻿    using UnityEngine.SceneManagement;
-    using Unity.Netcode;
-    using UnityEngine;
-    using UnityEngine.UI;
-    using TMPro;
-    using System.Collections;
-    using System.Net.Sockets;
-    using System.Net;
-    using static UnityEngine.RuleTile.TilingRuleOutput;
-    using Unity.Netcode.Transports.UTP;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 using System.Net;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
+using System.Net.Sockets;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System;
 
-    public class JoinRoomManager : MonoBehaviour
+public class JoinRoomManager : MonoBehaviour
+{
+    public Image characterImage;
+    public Text characterNameText;
+    public Text playerNameText;
+    public TMP_Text roomNameText;
+    public Sprite[] characters;
+    public string[] characterNames;
+
+    [SerializeField] private Button hostButton;
+    [SerializeField] private Button clientButton;
+    [SerializeField] private string ipAddress;
+    public UnityTransport transport;
+    public TMP_InputField IPAddressHost;
+    public TMP_Text IPAddressHostOnScreen;
+
+    void Start()
     {
-        // UI component hiển thị hình ảnh nhân vật đã chọn
-        public Image characterImage;
-        // UI component hiển thị tên nhân vật đã chọn
-        public Text characterNameText;
-        // UI component hiển thị tên người chơi
-        public Text playerNameText;
-        // TextMeshPro để hiển thị tên phòng
-        public TMP_Text roomNameText;
+        ipAddress = "0.0.0.0";
+        SetIpAddress();
 
-        // Mảng chứa hình ảnh các nhân vật
-        public Sprite[] characters;
-        // Mảng chứa tên của các nhân vật
-        public string[] characterNames;
-
-        // Các nút để bắt đầu host và client
-        [SerializeField]
-        private Button hostButton;
-        [SerializeField]
-        private Button clientButton;
-
-        [SerializeField] string ipAddress; // Địa chỉ IP sẽ được lấy tự động\
-        public UnityTransport transport;
-
-        public TMP_InputField IPAddressHost;
-
-        public TMP_Text IPAddressName;
-        void Start()
+        hostButton.onClick.AddListener(() =>
         {
-            // Inside the Start method or a custom initialization method
-            hostButton.onClick.AddListener(() =>
+            Debug.Log("Host button pressed in Scene 1.");
+            StartCoroutine(LoadSceneAndStartHost("MainGame"));
+        });
+
+        clientButton.onClick.AddListener(() =>
+        {
+            Debug.Log("Client button pressed in Scene 1.");
+            ipAddress = IPAddressHost.text;
+            ConnectToServer(ipAddress);
+            SetIpAddress();
+            StartCoroutine(LoadSceneAndStartClient("MainGame"));
+        });
+
+        if (PlayerPrefs.HasKey("RoomName"))
+        {
+            roomNameText.text = "Room: " + PlayerPrefs.GetString("RoomName");
+        }
+        else
+        {
+            roomNameText.text = "No Room Selected";
+        }
+
+        int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
+        if (selectedIndex >= 0 && selectedIndex < characters.Length)
+        {
+            characterImage.sprite = characters[selectedIndex];
+            characterNameText.text = characterNames[selectedIndex];
+        }
+        else
+        {
+            Debug.LogError("Selected character index is out of bounds.");
+        }
+
+        playerNameText.text = PlayerPrefs.GetString("PlayerName", "Player");
+    }
+
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private IEnumerator LoadSceneAndStartHost(string sceneName)
+    {
+        NetworkManager.Singleton.StartHost();
+        ipAddress = GetLocalIPAddress();
+        IPAddressHostOnScreen.text = ipAddress;
+        Debug.Log("IP address Host on screen assigned: " + IPAddressHostOnScreen.text);
+
+        if (NetworkManager.Singleton.IsHost)
+        {
+            Debug.Log("Host ID: " + NetworkManager.Singleton.LocalClientId.ToString());
+        }
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Host started in MainGame scene.");
+    }
+
+    public string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
-                Debug.Log("Host button pressed in Scene 1.");
-                // Start a coroutine to load the scene and then start the host
-                StartCoroutine(LoadSceneAndStartHost("MainGame"));
-            });
+                IPAddressHostOnScreen.text = ip.ToString();
+                ipAddress = ip.ToString();
+                Debug.Log("IP of host is: " + ipAddress);
+                return ip.ToString();
+            }
+        }
+        throw new Exception("No network adapters with an IPv4 address in the system!");
+    }
 
-            clientButton.onClick.AddListener(() =>
+    private IEnumerator LoadSceneAndStartClient(string sceneName)
+    {
+        NetworkManager.Singleton.StartClient();
+        ipAddress = IPAddressHost.text;
+        transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        IPAddressHostOnScreen.text = ipAddress;
+        transport.ConnectionData.Address = ipAddress;
+
+        Debug.Log("IP address assigned for transport: " + transport.ConnectionData.Address);
+
+        if (NetworkManager.Singleton.IsClient)
+        {
+            Debug.Log("Client ID: " + NetworkManager.Singleton.LocalClientId.ToString());
+        }
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Client started in MainGame scene.");
+    }
+
+    public void SetIpAddress()
+    {
+        if (ipAddress == null)
+        {
+            Debug.Log("IP address not found.");
+        }
+        else
+        {
+            Debug.Log("Found IP address: " + ipAddress);
+            transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+
+            if (transport == null)
             {
-                Debug.Log("Client button pressed in Scene 1.");
-                ipAddress = IPAddressHost.text;
-                ConnectToServer(ipAddress);
-                SetIpAddress();
-
-                // Start a coroutine to load the scene and then start the client
-                StartCoroutine(LoadSceneAndStartClient("MainGame"));
-            });
-
-
-            // Kiểm tra xem PlayerPrefs có lưu tên phòng không
-            if (PlayerPrefs.HasKey("RoomName"))
-            {
-                // Lấy tên phòng từ PlayerPrefs và hiển thị
-                string roomName = PlayerPrefs.GetString("RoomName");
-                roomNameText.text = "Room: " + roomName;
+                Debug.Log("Transport component not found on client.");
             }
             else
             {
-                // Nếu không có tên phòng, hiển thị thông báo mặc định
-                roomNameText.text = "No Room Selected";
+                transport.ConnectionData.Address = ipAddress;
+                Debug.Log("Client IP assigned: " + transport.ConnectionData.Address);
             }
-
-            // Lấy chỉ số nhân vật đã chọn từ PlayerPrefs
-            int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-            // Kiểm tra nếu chỉ số hợp lệ và hiển thị hình ảnh, tên nhân vật
-            if (selectedIndex >= 0 && selectedIndex < characters.Length)
-            {
-                characterImage.sprite = characters[selectedIndex];
-                characterNameText.text = characterNames[selectedIndex];
-            }
-            else
-            {
-                Debug.LogError("Selected character index is out of bounds.");
-            }
-
-            // Lấy tên người chơi từ PlayerPrefs và hiển thị
-            string playerName = PlayerPrefs.GetString("PlayerName", "Player");
-            playerNameText.text = playerName;
+        }
     }
 
     public async void ConnectToServer(string ipAddress)
     {
-        // Kiểm tra xem địa chỉ IP có hợp lệ hay không  
-        if (!IPAddress.TryParse(ipAddress, out IPAddress ip))  
-        {  
-            Debug.LogError("Địa chỉ IP không hợp lệ: " + ipAddress);  
-            return;  
+        if (!IPAddress.TryParse(ipAddress, out IPAddress ip))
+        {
+            Debug.LogError("Invalid IP address: " + ipAddress);
+            return;
         }
 
-        // Thực hiện ping tới địa chỉ IP  
         if (await PingAddress(ip))
         {
-            Debug.Log("Địa chỉ IP tồn tại và có thể kết nối: " + ipAddress);
-
+            Debug.Log("IP address is valid and reachable: " + ipAddress);
         }
         else
         {
-            Debug.LogError("Không thể kết nối tới địa chỉ IP: " + ipAddress);
-        }  
-    }  
+            Debug.LogError("Unable to connect to IP address: " + ipAddress);
+        }
+    }
 
     private async Task<bool> PingAddress(IPAddress ipAddress)
     {
@@ -123,133 +184,14 @@ using System;
         {
             using (System.Net.NetworkInformation.Ping ping = new System.Net.NetworkInformation.Ping())
             {
-                PingReply reply = await ping.SendPingAsync(ipAddress.ToString(), 1000); // Timeout 1000ms  
+                PingReply reply = await ping.SendPingAsync(ipAddress.ToString(), 1000);
                 return reply.Status == IPStatus.Success;
             }
         }
         catch (Exception e)
         {
-            Debug.LogError("Lỗi khi ping: " + e.Message);
+            Debug.LogError("Error during ping: " + e.Message);
             return false;
         }
     }
-
-
-
-        // Hàm để quay lại menu chính khi bấm nút "Return"
-        public void ReturnToMenu()
-        {
-            Time.timeScale = 1f; // Đảm bảo thời gian không bị tạm dừng khi quay lại menu
-            SceneManager.LoadScene("MainMenu"); // Chuyển về scene menu chính
-        }// Hàm khi nhấn nút "Play" để chuyển sang màn chơi chính
-
-        private IEnumerator LoadSceneAndStartHost(string sceneName)
-        {
-            NetworkManager.Singleton.StartHost();
-            string ipAddress = GetLocalIPAddress(); // Hàm lấy địa chỉ IP
-            IPAddressName.text= ipAddress;
-            //transport.ConnectionData.Address=ipAddress;
-            Debug.Log("IPAddressName: "+IPAddressName.text);
-            PlayerPrefs.SetString("HostIPAddress", ipAddress);
-            PlayerPrefs.Save();
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-            // Wait until the scene has loaded
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-            // Start the host after the scene has loaded
-
-            Debug.Log("Host started in MainGame scene.");
-        }
-
-        private IEnumerator LoadSceneAndStartClient(string sceneName)
-        {
-            NetworkManager.Singleton.StartClient();
-            string ipAddress = GetLocalIPAddress();
-            IPAddressName.text= ipAddress;
-            transport.ConnectionData.Address="127.0.0.1";
-            if (NetworkManager.Singleton.IsClient)
-            {
-                Debug.Log(NetworkManager.Singleton.ConnectedClientsIds);
-            }
-
-        
-            Debug.Log(ipAddress);
-            Debug.Log(transport.ConnectionData.Address);
-
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-            // Wait until the scene has loaded
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-            // Start the client after the scene has loaded
-
-            Debug.Log("Client started in MainGame scene.");
-        }
-
-
-        /* Gets the Ip Address of your connected network and
-    shows on the screen in order to let other players join
-    by inputing that Ip in the input field */
-        // ONLY FOR HOST SIDE 
-        public string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    ipAddress = ip.ToString();
-                    Debug.Log("IP của host: " + ipAddress);
-
-
-                    //PrintOpenPorts();
-                    return ip.ToString();
-                }
-            }
-            throw new System.Exception("No network adapters with an IPv4 address in the system!");
-        }
-
-
-        /* Sets the Ip Address of the Connection Data in Unity Transport
-	    to the Ip Address which was input in the Input Field */
-        // ONLY FOR CLIENT SIDE
-        public void SetIpAddress()
-        {
-            if (ipAddress == null)
-            {
-                Debug.Log("Ko tim thay ip address");
-            }
-            else
-            {
-                Debug.Log("Tim thay ip address:" + ipAddress);
-                transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-                if (transport == null)
-                {
-                    Debug.Log("Ko tim thay component transport tu client");
-                }
-                else
-                {
-                    transport.ConnectionData.Address = ipAddress;
-                    Debug.Log("IP client lay được: " + transport.ConnectionData.Address);
-                }
-            }
-        }
-
-
-        public void PlayGame()
-        {
-            //hostButton.onClick.AddListener(() =>
-            //{
-            //    SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
-            //    NetworkManager.Singleton.StartHost();
-            //});
-            //clientButton.onClick.AddListener(() =>
-            //{
-            //    SceneManager.LoadScene("MainGame"); // Chuyển đến Scene "MainGame"
-            //    NetworkManager.Singleton.StartClient();
-            //});
-        }
-    }
+}

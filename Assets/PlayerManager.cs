@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.Collections;
+using Unity.Networking.Transport;
 
 public class PlayerManager : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] playerPrefabs;
+
 
     private void Start()
     {

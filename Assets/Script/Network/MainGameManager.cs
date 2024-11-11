@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,11 +11,11 @@ public class GameNetworkManager : MonoBehaviour
     public GameObject rocketSpawnerPrefab;
     public string targetSceneName = "MainGame";
 
-
+  
     private void Start()
     {
 
-        if (NetworkManager.Singleton.IsHost)
+        if (NetworkManager.Singleton.IsServer)
         {
             Debug.Log("Thiết bị đang chạy ở chế độ Host");
         }
@@ -47,7 +49,8 @@ public class GameNetworkManager : MonoBehaviour
             }
             else if (NetworkManager.Singleton.IsClient)
             {
-                RequestSpawnPlayerServerRpc(); // Client gửi yêu cầu spawn
+                Debug.Log("Client in step require spawn");
+                //RequestSpawnPlayerServerRpc(); // Client gửi yêu cầu spawn
             }
         }
     }
@@ -69,7 +72,7 @@ public class GameNetworkManager : MonoBehaviour
         if (!NetworkManager.Singleton.IsServer)
         {
             Debug.LogError("Chỉ server mới có thể spawn đối tượng mạng.");
-            return;
+            
         }
 
         if (playerPrefab == null)
