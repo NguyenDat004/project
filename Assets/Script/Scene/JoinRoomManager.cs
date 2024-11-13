@@ -13,13 +13,6 @@ using System;
 
 public class JoinRoomManager : MonoBehaviour
 {
-    public Image characterImage;
-    public Text characterNameText;
-    public Text playerNameText;
-    public TMP_Text roomNameText;
-    public Sprite[] characters;
-    public string[] characterNames;
-
     [SerializeField] private Button hostButton;
     [SerializeField] private Button clientButton;
     [SerializeField] private string ipAddress;
@@ -35,7 +28,7 @@ public class JoinRoomManager : MonoBehaviour
         hostButton.onClick.AddListener(() =>
         {
             Debug.Log("Host button pressed in Scene 1.");
-            StartCoroutine(LoadSceneAndStartHost("MainGame"));
+            StartCoroutine(LoadSceneAndStartHost("JoinRoom"));
         });
 
         clientButton.onClick.AddListener(() =>
@@ -44,30 +37,9 @@ public class JoinRoomManager : MonoBehaviour
             ipAddress = IPAddressHost.text;
             ConnectToServer(ipAddress);
             SetIpAddress();
-            StartCoroutine(LoadSceneAndStartClient("MainGame"));
+            StartCoroutine(LoadSceneAndStartClient("JoinRoom"));
         });
 
-        if (PlayerPrefs.HasKey("RoomName"))
-        {
-            roomNameText.text = "Room: " + PlayerPrefs.GetString("RoomName");
-        }
-        else
-        {
-            roomNameText.text = "No Room Selected";
-        }
-
-        int selectedIndex = PlayerPrefs.GetInt("SelectedCharacterIndex", 0);
-        if (selectedIndex >= 0 && selectedIndex < characters.Length)
-        {
-            characterImage.sprite = characters[selectedIndex];
-            characterNameText.text = characterNames[selectedIndex];
-        }
-        else
-        {
-            Debug.LogError("Selected character index is out of bounds.");
-        }
-
-        playerNameText.text = PlayerPrefs.GetString("PlayerName", "Player");
     }
 
     public void ReturnToMenu()

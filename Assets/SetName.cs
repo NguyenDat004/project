@@ -11,5 +11,6 @@ public class SetName : NetworkBehaviour
     {
         // Get the text from SetCharacter.namePlayerText and set it to the TMP_Text component
         this.GetComponent<TMP_Text>().text = SetCharacter.playerNameText;
+        Debug.Log(this.GetComponent<TMP_Text>().text+"     "+SetCharacter.playerNameText);
     }
 }
