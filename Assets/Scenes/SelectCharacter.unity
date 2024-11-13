@@ -1536,6 +1536,10 @@ PrefabInstance:
       propertyPath: clientButton
       value: 
       objectReference: {fileID: 2103163624}
+    - target: {fileID: 3341411671372188550, guid: a19273208c7e2a64fab51e0938ce1048, type: 3}
+      propertyPath: IPAddressHost
+      value: 
+      objectReference: {fileID: 1054734413}
     - target: {fileID: 6029010008058777815, guid: a19273208c7e2a64fab51e0938ce1048, type: 3}
       propertyPath: m_Name
       value: NetworkManger
