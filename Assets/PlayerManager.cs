@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Netcode;
-using Unity.Collections;
-using Unity.Networking.Transport;
+using TMPro;
 
 public class PlayerManager : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject[] playerPrefabs;
+    private GameObject[] playerPrefabs; // Array of player prefabs
 
 
     private void Start()
@@ -33,11 +31,35 @@ public class PlayerManager : NetworkBehaviour
             return;
         }
 
-        int i = Random.Range(0, playerPrefabs.Length);
-        GameObject playerInstance = Instantiate(playerPrefabs[i], transform.position, Quaternion.identity);
-        Debug.Log("Client's player instantiate");
-        NetworkObject networkObject = playerInstance.GetComponent<NetworkObject>();
-        Debug.Log("Client spawned");
+        GameObject playerInstance;
+        NetworkObject networkObject;
+
+        // Use the selected character sprite name from the NetworkVariable
+        string selectedCharacter = SetCharacter.selectedCharacterSprite;
+
+        // Instantiate the correct player prefab based on the selected character name
+        if (selectedCharacter == "Assassin")
+        {
+            playerInstance = Instantiate(playerPrefabs[0], transform.position, Quaternion.identity);
+            Debug.Log("Client spawned Assassin");
+        }
+        else if (selectedCharacter == "Cowboy")
+        {
+            playerInstance = Instantiate(playerPrefabs[1], transform.position, Quaternion.identity);
+            Debug.Log("Client spawned Cowboy");
+        }
+        else if (selectedCharacter == "Madman")
+        {
+            playerInstance = Instantiate(playerPrefabs[2], transform.position, Quaternion.identity);
+            Debug.Log("Client spawned Madman");
+        }
+        else
+        {
+            playerInstance = Instantiate(playerPrefabs[3], transform.position, Quaternion.identity);
+            Debug.Log("Client spawned Default");
+        }
+
+        networkObject = playerInstance.GetComponent<NetworkObject>();
 
         if (networkObject != null)
         {
@@ -55,7 +77,7 @@ public class PlayerManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestSpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
     {
-        Debug.Log("Client da yeu cau spawn");
+        Debug.Log("Client requested spawn");
         if (IsHost)
         {
             // The server (host) spawns a player for the client that sent the request.

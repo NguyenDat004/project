@@ -5,83 +5,91 @@ using UnityEngine.SceneManagement;
 
 public class CharacterSelection : MonoBehaviour
 {
-    public Image characterImage;  // Hình ảnh nhân vật
-    public Text characterNameText;  // Tên nhân vật
-    public TMP_InputField playerNameInput;  // InputField để người chơi nhập tên
-    public TMP_InputField roomInput;  // InputField để người chơi nhập phòng
+    public GameObject characterImage;  // GameObject that holds the SpriteRenderer for character images
+    public Text characterNameText;  // Text to display the character's name
+    public TMP_InputField playerNameInput;  // InputField for player name input
+    public TMP_InputField roomInput;  // InputField for room name input
 
-    public Sprite[] characters;  // Mảng hình ảnh nhân vật
-    public string[] characterNames;  // Mảng tên nhân vật
+    public Sprite[] characters;  // Array of character images
+    public string[] characterNames;  // Array of character names
 
-    private int currentIndex = 0;
+    private int currentIndex = 0;  // Index of the currently selected character
 
     void Start()
     {
         UpdateCharacter();
     }
 
-    // Khi nhấn nút "Next"
+    // When "Next" button is clicked
     public void NextCharacter()
     {
         currentIndex++;
         if (currentIndex >= characters.Length)
         {
-            currentIndex = 0; // Quay lại nhân vật đầu tiên
+            currentIndex = 0; // Loop back to the first character
         }
         UpdateCharacter();
     }
 
-    // Khi nhấn nút "Back"
+    // When "Back" button is clicked
     public void PreviousCharacter()
     {
         currentIndex--;
         if (currentIndex < 0)
         {
-            currentIndex = characters.Length - 1; // Chuyển đến nhân vật cuối cùng
+            currentIndex = characters.Length - 1; // Loop to the last character
         }
         UpdateCharacter();
     }
 
-    // Cập nhật hình ảnh và tên nhân vật
+    // Update the character image and name display
     void UpdateCharacter()
     {
-        characterImage.sprite = characters[currentIndex];
-        characterNameText.text = characterNames[currentIndex];
+        SpriteRenderer characterSpriteRenderer = characterImage.GetComponent<SpriteRenderer>();
+        if (characterSpriteRenderer != null)
+        {
+            characterSpriteRenderer.sprite = characters[currentIndex]; // Correctly assign the sprite
+            characterNameText.text = characterNames[currentIndex];
+        }
+        else
+        {
+            Debug.LogError("SpriteRenderer component not found on the characterImage GameObject.");
+        }
     }
 
-    // Khi nhấn nút "Play"
-    public void PlayGame(){
-    string playerName = playerNameInput.text;
-    string roomName = roomInput.text;
-
-    // Kiểm tra tên người chơi và tên phòng không rỗng
-    if (string.IsNullOrEmpty(playerName))
+    // When "Play" button is clicked
+    public void PlayGame()
     {
-        Debug.LogWarning("Player name is required.");
-        return;
+        string playerName = playerNameInput.text;
+        string roomName = roomInput.text;
+
+        // Check that player name and room name are not empty
+        if (string.IsNullOrEmpty(playerName))
+        {
+            Debug.LogWarning("Player name is required.");
+            return;
+        }
+
+        if (string.IsNullOrEmpty(roomName))
+        {
+            Debug.LogWarning("Room name is required.");
+            return;
+        }
+
+        // Save player name, room name, and selected character to PlayerPrefs
+        PlayerPrefs.SetString("PlayerName", playerName);
+        PlayerPrefs.SetString("RoomName", roomName);
+        PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
+        PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
+
+        // Load the JoinRoom scene
+        SceneManager.LoadScene("JoinRoom");
     }
 
-    if (string.IsNullOrEmpty(roomName))
-    {
-        Debug.LogWarning("Room name is required.");
-        return;
-    }
-
-    // Lưu tên người chơi và tên phòng vào PlayerPrefs
-    PlayerPrefs.SetString("PlayerName", playerName);  
-    PlayerPrefs.SetString("RoomName", roomName);  // Lưu tên phòng
-
-    // Lưu chỉ số nhân vật đã chọn vào PlayerPrefs
-    PlayerPrefs.SetString("SelectedCharacter", characterNames[currentIndex]);
-    PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
-
-    // Chuyển đến màn hình JoinRoom
-    SceneManager.LoadScene("JoinRoom");
-    }
-    // Hàm để quay lại menu chính (tuỳ chọn)
+    // Function to return to the main menu (optional)
     public void ReturnToMenu()
     {
-        Time.timeScale = 1f; // Chạy lại thời gian
-        SceneManager.LoadScene("MainMenu"); // Chuyển về Scene menu chính
+        Time.timeScale = 1f; // Resume time if it was paused
+        SceneManager.LoadScene("MainMenu"); // Load the main menu scene
     }
 }

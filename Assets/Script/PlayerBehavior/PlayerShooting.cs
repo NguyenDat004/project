@@ -44,26 +44,34 @@ public class PlayerShooting : NetworkBehaviour
     private void ShootServerRpc()
     {
         // Chỉ server mới tạo và đồng bộ hóa viên đạn
+        Debug.Log("Goi chuyen animation tan cong");
         ShootClientRpc();
     }
 
     [ClientRpc]
     private void ShootClientRpc()
     {
-        if (gameObject.name == "Cowboy")
+        if (gameObject.name.Contains("Cowboy"))
         {
+            Debug.Log("Cowboy tancong");
             StartCoroutine(PlayAnimationAndWait("ShootingPistol"));
         }
-        else if (gameObject.name == "Robot")
+        else if (gameObject.name.Contains("Robot"))
         {
+            Debug.Log("Sniper tancong");
+
             StartCoroutine(PlayAnimationAndWait("ShootingSniper"));
         }
-        else if (gameObject.name == "Madman")
+        else if (gameObject.name.Contains("Madman"))
         {
+            Debug.Log("Madman tancong");
+
             StartCoroutine(PlayAnimationAndWait("Throwing"));
         }
-        else if (gameObject.name == "Assassin")
+        else if (gameObject.name.Contains("Assassin"))
         {
+            Debug.Log("Assassin tancong");
+
             StartCoroutine(PlayAnimationAndWait("Slash"));
         }
 
@@ -79,6 +87,7 @@ public class PlayerShooting : NetworkBehaviour
 
     private IEnumerator PlayAnimationAndWait(string animName)
     {
+        Debug.Log("Animation attack is play");
         shootAnimator.Play(animName);
 
         yield return new WaitForEndOfFrame();

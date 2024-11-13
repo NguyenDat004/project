@@ -26,7 +26,6 @@ public class MovingScripts : NetworkBehaviour
 
     private float timeCountJump; // Đếm ngược thời gian nhảy
     private Animator animator;
-    float countPrint;
     void Start()
     {
         
@@ -35,8 +34,6 @@ public class MovingScripts : NetworkBehaviour
         animator.SetBool("FallingState", false);
         animator.SetBool("WalkingState", false);
         animator.SetBool("StandingState", true);
-
-        countPrint = 0;
 
         // Khởi tạo giá trị cho các biến
         upwardForce = 80f;
