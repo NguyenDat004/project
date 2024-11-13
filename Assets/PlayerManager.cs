@@ -36,7 +36,7 @@ public class PlayerManager : NetworkBehaviour
 
         // Use the selected character sprite name from the NetworkVariable
         string selectedCharacter = SetCharacter.selectedCharacterSprite;
-
+        Debug.Log("Selected Character: "+selectedCharacter);
         // Instantiate the correct player prefab based on the selected character name
         if (selectedCharacter == "Assassin")
         {
