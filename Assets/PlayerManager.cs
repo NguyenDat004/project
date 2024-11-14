@@ -1,43 +1,54 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
-using TMPro;
+using Unity.Collections;
 
 public class PlayerManager : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] playerPrefabs; // Array of player prefabs
 
+    private NetworkVariable<FixedString128Bytes> playerCharNetVariable = new NetworkVariable<FixedString128Bytes>();
 
-    private void Start()
+    // Called when the object is spawned on the network
+    public override void OnNetworkSpawn()
     {
-        if (IsHost)
+
+        if (IsClient)
         {
-            Debug.Log("Host spawned");
-            // The host spawns its own player when the game starts.
-            SpawnPlayer(NetworkManager.Singleton.LocalClientId);
+            Debug.Log("This is Client On PlayerManager");
+            SetPlayerCharacterServerRpc(SetCharacter.selectedCharacterSprite);
         }
-        else if (IsClient)
-        {
-            // Clients request the host to spawn their player when they connect.
-            RequestSpawnPlayerServerRpc();
-        }
+        
     }
 
-    private void SpawnPlayer(ulong clientId)
+        // Server RPC to set the player character on the server
+        [ServerRpc(RequireOwnership = false)]
+    private void SetPlayerCharacterServerRpc(string playerChar, ServerRpcParams rpcParams = default)
     {
-        if (playerPrefabs.Length == 0)
+        Debug.Log("Setting character on server: " + playerChar);
+        playerCharNetVariable.Value = playerChar; // Store the character selection in the network variable
+
+        
+        // After setting, spawn the player for the client that owns this character
+        SpawnPlayerClientRpc(playerChar, rpcParams.Receive.SenderClientId);
+    }
+    [ClientRpc]
+    // Method to spawn the player object based on character selection
+    private void SpawnPlayerClientRpc(string selectedCharacter, ulong clientId)
+    {
+        Debug.Log("Access SpawnPlayerClientRpc with ID: " + clientId);
+        if (playerPrefabs.Length == 0 || !IsHost)
         {
-            Debug.LogError("Player prefabs array is empty.");
+            Debug.LogError("Player prefabs array is empty or not Host");
             return;
         }
 
         GameObject playerInstance;
         NetworkObject networkObject;
 
-        // Use the selected character sprite name from the NetworkVariable
-        string selectedCharacter = SetCharacter.selectedCharacterSprite;
-        Debug.Log("Selected Character: "+selectedCharacter);
-        // Instantiate the correct player prefab based on the selected character name
+        // Instantiate the correct player prefab based on selected character
+        Debug.Log("Selected Character: " + selectedCharacter);
+
         if (selectedCharacter == "Assassin")
         {
             playerInstance = Instantiate(playerPrefabs[0], transform.position, Quaternion.identity);
@@ -56,8 +67,10 @@ public class PlayerManager : NetworkBehaviour
         else
         {
             playerInstance = Instantiate(playerPrefabs[3], transform.position, Quaternion.identity);
-            Debug.Log("Client spawned Default");
+            Debug.Log("Client spawned Robot");
         }
+
+        Debug.Log("SPAWNNNNNNNNNNNNNNNNNNN");
 
         networkObject = playerInstance.GetComponent<NetworkObject>();
 
@@ -71,17 +84,6 @@ public class PlayerManager : NetworkBehaviour
         {
             Debug.LogError("The instantiated player prefab does not have a NetworkObject component.");
             Destroy(playerInstance);
-        }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestSpawnPlayerServerRpc(ServerRpcParams rpcParams = default)
-    {
-        Debug.Log("Client requested spawn");
-        if (IsHost)
-        {
-            // The server (host) spawns a player for the client that sent the request.
-            SpawnPlayer(rpcParams.Receive.SenderClientId);
         }
     }
 }

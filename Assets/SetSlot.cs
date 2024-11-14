@@ -27,9 +27,4 @@ public class SetSlot : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

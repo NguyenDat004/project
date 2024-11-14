@@ -58,5 +58,6 @@ public class SetName : NetworkBehaviour
     private void UpdateNameDisplay(string playerName)
     {
         nameDisplay.text = playerName;
+        Debug.Log("UpdateNameDisplay: "+nameDisplay);
     }
 }

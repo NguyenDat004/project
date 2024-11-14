@@ -50,11 +50,6 @@ public class GameNetworkManager : MonoBehaviour
                 SpawnPlayer(NetworkManager.Singleton.LocalClientId); // Host spawn player
                 SpawnPrefab();
             }
-            else if (NetworkManager.Singleton.IsClient)
-            {
-                Debug.Log("Client in step require spawn");
-                //RequestSpawnPlayerServerRpc(); // Client gửi yêu cầu spawn
-            }
         }
     }
 
@@ -75,7 +70,7 @@ public class GameNetworkManager : MonoBehaviour
         if (!NetworkManager.Singleton.IsServer)
         {
             Debug.LogError("Chỉ server mới có thể spawn đối tượng mạng.");
-            
+            return ;
         }
 
         if (playerPrefab == null)
@@ -86,7 +81,7 @@ public class GameNetworkManager : MonoBehaviour
 
 
         GameObject player = Instantiate(playerPrefab);
-        Debug.Log("player được instantiate");
+        Debug.Log("Player được instantiate voi id: "+clientId);
         NetworkObject playerNetworkObject = player.GetComponent<NetworkObject>();
 
 
@@ -98,8 +93,9 @@ public class GameNetworkManager : MonoBehaviour
         }
 
         // Chỉ server mới có thể gọi SpawnWithOwnership
-        playerNetworkObject.SpawnWithOwnership(clientId);
         Debug.Log("player được spawn");
+        playerNetworkObject.SpawnWithOwnership(clientId);
+
         Debug.Log($"Nhân vật đã spawn trên mạng cho client {clientId}");
     }
 
