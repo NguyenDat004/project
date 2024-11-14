@@ -22,7 +22,7 @@ public class SetSlot : MonoBehaviour
         else if (SetCharacter.selectedCharacterSprite=="Robot"){
             characterSlot.sprite=spriteRenderer[3].GetComponent<SpriteRenderer>().sprite;
         }
-        Debug.Log("Character Sprite set: "+SetCharacter.selectedCharacterSprite+", "+characterSlot);
+        Debug.Log("Character Sprite set: "+SetCharacter.selectedCharacterSprite+", "+characterSlot.sprite.name);
 
 
     }

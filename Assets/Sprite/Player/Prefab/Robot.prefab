@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: -4918459156663410467}
   - component: {fileID: -7338891324376307327}
   - component: {fileID: 9185813955241055254}
+  - component: {fileID: 7181488911702840992}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Player
@@ -335,6 +336,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7181488911702840992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421700324520776438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383057520cc6dad40a478c6b1e7ad2cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameDisplay: {fileID: 7215660004968003926}
 --- !u!1 &594860639113930060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,3 +1372,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2953617400098428537, guid: 9db26002c07a0a84b9e4f3019e8adf3d, type: 3}
   m_PrefabInstance: {fileID: 8767388414298000436}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7215660004968003926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2129967074620470626, guid: 9db26002c07a0a84b9e4f3019e8adf3d, type: 3}
+  m_PrefabInstance: {fileID: 8767388414298000436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

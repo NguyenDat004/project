@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: -6106309070064094737}
   - component: {fileID: -1834297206017123922}
   - component: {fileID: -508728061539997433}
+  - component: {fileID: 4032724382533617672}
   m_Layer: 0
   m_Name: Assassin
   m_TagString: Player
@@ -493,6 +494,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4032724382533617672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4096191461418841721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 383057520cc6dad40a478c6b1e7ad2cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameDisplay: {fileID: 5096434706492319582}
 --- !u!1 &4267204879490283557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1358,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9db26002c07a0a84b9e4f3019e8adf3d, type: 3}
+--- !u!114 &5096434706492319582 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2129967074620470626, guid: 9db26002c07a0a84b9e4f3019e8adf3d, type: 3}
+  m_PrefabInstance: {fileID: 6572165390191137340}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8343022735931343941 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2953617400098428537, guid: 9db26002c07a0a84b9e4f3019e8adf3d, type: 3}

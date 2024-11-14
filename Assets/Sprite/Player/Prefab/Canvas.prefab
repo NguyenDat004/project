@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3012214953854685317}
   - component: {fileID: 8578607348314334636}
   - component: {fileID: 2014442137890876611}
-  - component: {fileID: 6446323700244330104}
   - component: {fileID: 3119424277325496521}
   m_Layer: 5
   m_Name: Canvas
@@ -39,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.4, y: 21.2}
+  m_AnchoredPosition: {x: 1.4000244, y: 21.200012}
   m_SizeDelta: {x: 50, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &842624980689956476
@@ -117,27 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fffe1a318f1eb324bb3bfb8f9f296267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6446323700244330104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542148496978507608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3415907079
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &3119424277325496521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +158,6 @@ GameObject:
   - component: {fileID: 1977089212869738879}
   - component: {fileID: 6323023590621552593}
   - component: {fileID: 2129967074620470626}
-  - component: {fileID: 2164892987781145520}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -304,15 +281,3 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2164892987781145520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4421520347518683283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 383057520cc6dad40a478c6b1e7ad2cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

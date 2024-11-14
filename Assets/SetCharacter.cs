@@ -20,44 +20,27 @@ public class SetCharacter : MonoBehaviour
         currentScene = SceneManager.GetActiveScene();
         Debug.Log("Current scene at Start: " + currentScene.name);
 
-        // Add listener to the NamePlayer InputField
-        if (NamePlayer != null)
+        if (currentScene.name == "SelectCharacter")
         {
-            NamePlayer.onValueChanged.AddListener(OnValueChanged); // Setup listener here
-        }
-        else
-        {
-            Debug.LogWarning("NamePlayer InputField is not assigned.");
-        }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        currentScene = scene;
-        Debug.Log("Scene loaded: " + scene.name);
-
-        if (scene.name == "SelectCharacter")
-        {
-            if (Character != null)
+            // Add listener to the NamePlayer InputField
+            if (NamePlayer != null)
             {
-                SpriteRenderer spriteRenderer = Character.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    selectedCharacterSprite = spriteRenderer.sprite.name;
-                    Debug.Log("Character sprite stored at start.");
-                }
-                else
-                {
-                    Debug.LogWarning("Character GameObject does not have a SpriteRenderer component!");
-                }
+                NamePlayer.onValueChanged.AddListener(OnValueChanged); // Setup listener here
             }
             else
             {
-                Debug.LogWarning("Character GameObject is not assigned!");
+                Debug.LogWarning("NamePlayer InputField is not assigned.");
             }
-            Debug.Log("Entered SelectCharacter scene.");
         }
-        else if (scene.name == "JoinRoom")
+    }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Player name text: "+playerNameText+"selectCharacterSprite: "+selectedCharacterSprite);
+        currentScene = scene;
+        Debug.Log("Scene loaded: " + scene.name);
+
+        if (scene.name == "JoinRoom")
         {
             playerNameText = PlayerPrefs.GetString("PlayerName", "Guest");
             Debug.Log("Player name loaded: " + playerNameText);
