@@ -21,13 +21,18 @@ public class GameOverManager : MonoBehaviour
     public void RetryGame()
     {
         Time.timeScale = 1f; // Chạy lại trò chơi
-        SceneManager.LoadScene("MainGame"); //Hiển thị màn hình game
-    }
-
-    // Hàm để quay lại menu chính (tuỳ chọn)
-    public void ReturnToMenu()
-    {
-        Time.timeScale = 1f; // Chạy lại thời gian
         SceneManager.LoadScene("MainMenu"); // Chuyển về Scene menu chính
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Game is quitting...");
+        Application.Quit();
+
+        // Nếu đang trong Unity Editor, hiển thị thông báo
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+    }
+
 }
