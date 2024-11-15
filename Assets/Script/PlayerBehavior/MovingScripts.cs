@@ -2,9 +2,12 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MovingScripts : NetworkBehaviour
 {
+    public GameObject Thongbaochet;
     public Rigidbody2D myRigidbody;  // Đối tượng Rigidbody2D điều khiển vật lý của nhân vật
     private BoxCollider2D currentCollider; // Collider của đối tượng hiện đang va chạm
     public Collider2D[] secondGroundColliders; // Danh sách collider của "SecondGround"
@@ -26,11 +29,11 @@ public class MovingScripts : NetworkBehaviour
 
     private float timeCountJump; // Đếm ngược thời gian nhảy
     private Animator animator;
-    void Start()
+    public NetworkVariable<int> life_count = new NetworkVariable<int>(3);
+    public override void OnNetworkSpawn()
     {
-        
         animator = GetComponent<Animator>();
-        animator.SetBool("JumpState",false);
+        animator.SetBool("JumpState", false);
         animator.SetBool("FallingState", false);
         animator.SetBool("WalkingState", false);
         animator.SetBool("StandingState", true);
@@ -61,6 +64,7 @@ public class MovingScripts : NetworkBehaviour
 
     }
 
+
     void Update()
     {
         if (IsOwner)
@@ -69,8 +73,41 @@ public class MovingScripts : NetworkBehaviour
             CharacterJumping();
             CharacterFalling();
             SetStateAnimation();
+
+            if (this.transform.position.y < -90)
+            {
+                // The client calls the server to update the life count
+                UpdateLifeCountServerRpc();
+
+                if (life_count.Value > 0)
+                {
+                    // Reset position and velocity
+                    this.transform.position = new Vector3(0, 180, 0);
+                    myRigidbody.velocity = Vector3.zero;
+                }
+                else if (IsServer)
+                {
+                    GameObject thongbaochet = Instantiate(Thongbaochet, new Vector3(150,100,10), Quaternion.identity);
+                    thongbaochet.GetComponentInChildren<TMP_Text>().text = this.name + " đã thua";
+                }
+                else
+                {
+                    GameObject thongbaochet = Instantiate(Thongbaochet, new Vector3(0,0,0), Quaternion.identity);
+                    thongbaochet.GetComponentInChildren<TMP_Text>().text = this.name + " đã thua";
+                    // Destroy the player object on the server
+                    Destroy(gameObject);
+                }
+            }
         }
-    } 
+
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void UpdateLifeCountServerRpc()
+    {
+        life_count.Value -= 1;  // Only the server can change the life count
+    }
+
+
     void SetStateAnimation()
     {
 

@@ -77,6 +77,7 @@ public class JoinRoomManager : MonoBehaviour
             if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
                 IPAddressHostOnScreen.text = ip.ToString();
+                IPAddressHostOnScreen.color = Color.red;
                 ipAddress = ip.ToString();
                 Debug.Log("IP of host is: " + ipAddress);
                 return ip.ToString();

@@ -14,7 +14,7 @@ public class Bom : NetworkBehaviour
     public float initialThrowForce = 10f;
     public float throwAngle = 50f;
     public float gravityScale = 9f;
-    public float explosionTime = 3f;
+    public float explosionTime = 2f;
 
     private bool hasExploded = false;
     private bool isReadyToBounce = true;

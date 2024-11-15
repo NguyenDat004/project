@@ -92,9 +92,9 @@ MonoBehaviour:
     - {x: 0, y: 0, z: 0.060707357, w: 0.99815565}
     - {x: 0, y: 0, z: 0, w: 1}
     m_StoredLocalRotations:
-    - {x: 0, y: 0, z: 0.71221364, w: 0.7019628}
-    - {x: 0, y: 0, z: -0.0152395135, w: 0.9998839}
-    - {x: 0, y: 0, z: -0.99602, w: -0.08913009}
+    - {x: 0, y: 0, z: 0.9554052, w: -0.29529813}
+    - {x: 0, y: 0, z: 0.6562438, w: 0.7545489}
+    - {x: 0, y: 0, z: 0.37663072, w: -0.9263635}
   m_Flip: 1
 --- !u!1 &1445091075231230936
 GameObject:
@@ -404,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3088233458240061750
 Transform:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6053364956300273419}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.03, y: -3.43, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -439,8 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1426235710
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2378208336
+  InScenePlacedSourceGlobalObjectIdHash: 1426235710
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -460,6 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b331434cfbb1be42a1e6340b6f93fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Thongbaochet: {fileID: 3179450960517656720, guid: 5b2c8727afdac094baa0fd5c6b191cd4, type: 3}
   myRigidbody: {fileID: 2414661354411431624}
   secondGroundColliders: []
   upwardForce: 50
@@ -470,6 +471,7 @@ MonoBehaviour:
   maxHorizontalSpeed: 0
   jumpCount: 2
   tocdoroi: 0
+  life_count: 0
 --- !u!95 &7966804801221792663
 Animator:
   serializedVersion: 5

@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3358836606
+  GlobalObjectIdHash: 3200762127
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -273,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b331434cfbb1be42a1e6340b6f93fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Thongbaochet: {fileID: 3179450960517656720, guid: 5b2c8727afdac094baa0fd5c6b191cd4, type: 3}
   myRigidbody: {fileID: 3880995385833782411}
   secondGroundColliders: []
   upwardForce: 50
@@ -283,6 +284,7 @@ MonoBehaviour:
   maxHorizontalSpeed: 0
   jumpCount: 2
   tocdoroi: 0
+  life_count: 0
 --- !u!95 &4751238652397439623
 Animator:
   serializedVersion: 5
