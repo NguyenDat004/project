@@ -9,7 +9,7 @@ using TMPro;
 public class StartGame : MonoBehaviour
 {
     public Button startButton; // Tham chiếu đến nút trong Inspector
-    public TMP_Text roleText; // Tham chiếu đến TMP_Text UI trong Inspector
+    public Button startClient; // Tham chiếu đến nút trong Inspector
     private void Start()
     {
         // Kiểm tra xem người chơi có phải là host không
@@ -17,13 +17,13 @@ public class StartGame : MonoBehaviour
         {
             // Hiển thị nút nếu người chơi là host
             startButton.gameObject.SetActive(true);
-            roleText.gameObject.SetActive(false);
+            startClient.gameObject.SetActive(false);
         }
         else
         {
             // Ẩn nút nếu người chơi là client
             startButton.gameObject.SetActive(false);
-            roleText.gameObject.SetActive(true);
+            startClient.gameObject.SetActive(true);
         }
     }
     

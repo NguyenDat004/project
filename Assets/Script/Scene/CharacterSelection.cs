@@ -83,7 +83,7 @@ public class CharacterSelection : MonoBehaviour
         PlayerPrefs.SetInt("SelectedCharacterIndex", currentIndex);
 
         // Load the JoinRoom scene
-        SceneManager.LoadScene("JoinRoom");
+        // SceneManager.LoadScene("JoinRoom");
     }
 
     // Function to return to the main menu (optional)
